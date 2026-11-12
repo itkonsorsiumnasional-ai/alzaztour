@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontak | Alzaz Tour &amp; Travel</title>
+<meta name="description" content="Hubungi Alzaz Tour & Travel untuk tanya paket wisata, jadwal keberangkatan, harga terbaru, dan sisa kursi.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .k-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:28px;align-items:start;margin-top:-34px;position:relative;z-index:2}
+  .k-box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+  .k-box h2{font-family:'Baloo 2',sans-serif;color:var(--green-900);font-size:1.4rem;margin:0 0 6px}
+  .k-sub{color:var(--muted);margin:0 0 18px}
+  .k-list{display:grid;gap:12px}
+  .k-item{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:2px solid #e3eedd;border-radius:14px;text-decoration:none;color:inherit;transition:border-color .2s,background .2s}
+  a.k-item:hover{border-color:var(--green-700);background:#f6fbf2}
+  .k-ico{flex:0 0 42px;height:42px;border-radius:12px;background:var(--yellow-soft);display:grid;place-items:center;font-size:1.25rem}
+  .k-item strong{display:block;color:var(--green-900)}
+  .k-item span{color:var(--muted);font-size:.95rem;line-height:1.45}
+  .k-hours{margin:18px 0 0;padding:14px 16px;border-radius:14px;background:var(--yellow-soft);color:var(--green-900);font-weight:700}
+  .k-hours small{display:block;font-weight:600;color:var(--muted);margin-top:2px}
+  .k-form{display:grid;gap:14px}
+  .k-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .k-form label{display:block;font-weight:700;color:var(--green-900);font-size:.92rem;margin-bottom:6px}
+  .k-form input,.k-form textarea{width:100%;box-sizing:border-box;padding:12px 14px;border:2px solid #d5e5cc;border-radius:12px;font:inherit;background:#fff;color:inherit}
+  .k-form input:focus,.k-form textarea:focus{outline:none;border-color:var(--green-700)}
+  .k-form textarea{min-height:110px;resize:vertical}
+  .k-form .btn{width:100%;text-align:center;cursor:pointer;border:0}
+  .k-note{color:var(--muted);font-size:.88rem;margin:0}
+  .k-map{margin-top:28px}
+  .k-map .k-box{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+  .k-map h2{margin:0}
+  @media (max-width:900px){
+    .k-grid{grid-template-columns:1fr;margin-top:-24px}
+    .k-row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body data-page="kontak">
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page-hero" style="padding-bottom:70px">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Beranda</a> / <span>Kontak</span></div>
+      <h1>Hubungi Kami</h1>
+      <p>Tanya paket, jadwal, harga terbaru, atau sisa kursi. Tim kami siap membantu.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="k-grid">
+
+        <div class="k-box">
+          <h2>Informasi Kontak</h2>
+          <p class="k-sub">Pilih cara yang paling nyaman untuk Anda.</p>
+          <div class="k-list" id="kList"></div>
+          <div class="k-hours" id="kHours"></div>
+        </div>
+
+        <div class="k-box">
+          <h2>Kirim Pertanyaan</h2>
+          <p class="k-sub">Isi formulir singkat ini, pesan Anda akan langsung terbuka di WhatsApp.</p>
+          <form class="k-form" id="kForm" novalidate>
+            <div class="k-row">
+              <div><label for="fNama">Nama</label><input id="fNama" name="nama" type="text" placeholder="Nama lengkap" autocomplete="name" required></div>
+              <div><label for="fHp">No. WhatsApp</label><input id="fHp" name="hp" type="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></div>
+            </div>
+            <div><label for="fPaket">Paket / tujuan yang diminati</label><input id="fPaket" name="paket" type="text" placeholder="Contoh: Tour 3 Negara Asia 7D6N"></div>
+            <div class="k-row">
+              <div><label for="fTgl">Rencana keberangkatan</label><input id="fTgl" name="tgl" type="date"></div>
+              <div><label for="fOrang">Jumlah peserta</label><input id="fOrang" name="orang" type="number" min="1" placeholder="Contoh: 4"></div>
+            </div>
+            <div><label for="fKota">Kota keberangkatan</label><input id="fKota" name="kota" type="text" placeholder="Contoh: Jakarta"></div>
+            <div><label for="fPesan">Pesan</label><textarea id="fPesan" name="pesan" placeholder="Tulis pertanyaan Anda di sini"></textarea></div>
+            <button type="submit" class="btn btn-wa">Kirim lewat WhatsApp</button>
+            <p class="k-note">Harga dan jadwal dapat berubah mengikuti musim. Kami akan konfirmasi lewat WhatsApp.</p>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="k-map" id="kMap"></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-box">
+        <div>
+          <h2>Mau langsung ngobrol?</h2>
+          <p>Klik tombol di samping, kami balas secepatnya di jam operasional.</p>
+        </div>
+        <a class="btn btn-wa" data-wa="Halo Alzaz Tour, saya ingin bertanya tentang paket wisata." href="#">Chat WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="site.js"></script>
+<script>
+  /* ===== EDIT DI SINI: isi dengan data kontak yang benar ===== */
+  const KONTAK = {
+    wa:      "",                           // contoh: "0812-3456-7890" (tampilan saja; link WhatsApp memakai wa() dari site.js)
+    telp:    "",                           // contoh: "021-1234567"
+    email:   "",                           // contoh: "info@alzaztour.com"
+    alamat:  "",                           // alamat kantor lengkap
+    instagram: "",                         // contoh: "@alzaztour"
+    jam:     "Senin - Sabtu, 09.00 - 17.00 WIB",
+    jamCatatan: "Di luar jam kerja, pesan tetap kami balas di hari berikutnya."
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const digits = s => String(s).replace(/\D/g, "");
+
+    /* ---------- Kartu kontak (hanya yang sudah diisi) ---------- */
+    const items = [];
+    items.push({ ico: "💬", t: "WhatsApp", d: KONTAK.wa || "Chat langsung dengan tim kami", href: wa("Halo Alzaz Tour, saya ingin bertanya tentang paket wisata."), ext: true });
+    if (KONTAK.telp)      items.push({ ico: "📞", t: "Telepon", d: KONTAK.telp, href: "tel:" + digits(KONTAK.telp) });
+    if (KONTAK.email)     items.push({ ico: "✉️", t: "Email", d: KONTAK.email, href: "mailto:" + KONTAK.email });
+    if (KONTAK.instagram) items.push({ ico: "📸", t: "Instagram", d: KONTAK.instagram, href: "https://instagram.com/" + KONTAK.instagram.replace("@", ""), ext: true });
+    if (KONTAK.alamat)    items.push({ ico: "📍", t: "Alamat Kantor", d: KONTAK.alamat });
+
+    document.getElementById("kList").innerHTML = items.map(i => {
+      const inner = `<div class="k-ico">${i.ico}</div><div><strong>${esc(i.t)}</strong><span>${esc(i.d)}</span></div>`;
+      return i.href
+        ? `<a class="k-item" href="${i.href}"${i.ext ? ' target="_blank" rel="noopener"' : ""}>${inner}</a>`
+        : `<div class="k-item">${inner}</div>`;
+    }).join("");
+
+    document.getElementById("kHours").innerHTML =
+      `🕘 Jam Operasional<br>${esc(KONTAK.jam)}${KONTAK.jamCatatan ? `<small>${esc(KONTAK.jamCatatan)}</small>` : ""}`;
+
+    if (KONTAK.alamat) {
+      document.getElementById("kMap").innerHTML = `<div class="k-box">
+        <div><h2>Kunjungi Kantor Kami</h2><p class="k-sub" style="margin:6px 0 0">${esc(KONTAK.alamat)}</p></div>
+        <a class="btn btn-outline" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(KONTAK.alamat)}">Buka di Google Maps</a>
+      </div>`;
+    }
+
+    /* ---------- Isi otomatis paket dari ?p=... (jika ada) ---------- */
+    try {
+      const pk = findPackage(new URLSearchParams(location.search).get("p"));
+      if (pk) document.getElementById("fPaket").value = `${pk.name} (${pk.days} hari ${pk.nights} malam)`;
+    } catch (e) {}
+
+    /* ---------- Kirim form ke WhatsApp ---------- */
+    document.getElementById("kForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const v = id => document.getElementById(id).value.trim();
+      if (!v("fNama")) { alert("Isi nama Anda dulu ya."); document.getElementById("fNama").focus(); return; }
+
+      const tgl = v("fTgl")
+        ? new Date(v("fTgl") + "T00:00:00").toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
+        : "";
+      const lines = [
+        "Halo Alzaz Tour, saya ingin bertanya.",
+        "",
+        `Nama: ${v("fNama")}`,
+        v("fHp")    && `No. WhatsApp: ${v("fHp")}`,
+        v("fPaket") && `Paket/tujuan: ${v("fPaket")}`,
+        tgl         && `Rencana berangkat: ${tgl}`,
+        v("fOrang") && `Jumlah peserta: ${v("fOrang")}`,
+        v("fKota")  && `Kota keberangkatan: ${v("fKota")}`,
+        v("fPesan") && `\nPesan:\n${v("fPesan")}`
+      ].filter(x => x !== "" && x !== false && x !== undefined);
+
+      window.open(wa(lines.join("\n")), "_blank", "noopener");
+    });
+  });
+</script>
+</body>
+</html>
