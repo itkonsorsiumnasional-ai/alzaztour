@@ -15,17 +15,17 @@ const SITE = {
 // Ganti dengan paket asli Alzaz Tour. price: angka rupiah, atau null untuk "Hubungi kami".
 // image: nama file gambar paket, misalnya "gambar/bangkok-pattaya.jpg". Kosongkan ("") untuk memakai warna dan bendera.
 const PACKAGES = [
-  { name:"Tour 3 Negara Asia 7D6N", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:7, nights:6, flag:"🇲🇾🇸🇬🇹🇭", color:"#064d16,#1faa2e", price:null, tag:"", image:"",
+  { name:"Tour 3 Negara Asia 7D6N", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:7, nights:6, flags:["my","sg","th"], color:"#064d16,#1faa2e", price:null, tag:"", image:"",
     items:["Malaysia, Singapore, Thailand (Hatyai)","Jadwal Sep 2026 sampai Mar 2027","Bisa berangkat dari kota lain"] },
-  { name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, flag:"🇲🇾🇸🇬🇹🇭", color:"#0b6b1f,#1faa2e", price:13200000, tag:"", image:"",
+  { name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, flags:["my","sg","th"], color:"#0b6b1f,#1faa2e", price:13200000, tag:"", image:"",
     items:["Malaysia, Singapore, Bangkok, Pattaya","Jadwal Sep 2026 sampai Mar 2027","Itinerari 8 hari lengkap"] },
-  { name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, flag:"🇲🇾🇸🇬", color:"#064d16,#0b6b1f", price:null, tag:"", image:"",
+  { name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, flags:["my","sg"], color:"#064d16,#0b6b1f", price:null, tag:"", image:"",
     items:["Malaysia dan Singapore","Jadwal Sep 2026 sampai Mar 2027","Cocok untuk liburan singkat"] },
-  { name:"Tour 2 Negara Malaysia Singapore 5D4N", dest:"Malaysia Singapore", type:"2 Negara", days:5, nights:4, flag:"🇲🇾🇸🇬", color:"#1faa2e,#7bd35b", price:null, tag:"", image:"",
+  { name:"Tour 2 Negara Malaysia Singapore 5D4N", dest:"Malaysia Singapore", type:"2 Negara", days:5, nights:4, flags:["my","sg"], color:"#1faa2e,#7bd35b", price:null, tag:"", image:"",
     items:["Malaysia dan Singapore","Waktu lebih longgar di tiap kota","Jadwal Sep 2026 sampai Mar 2027"] },
-  { name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, flag:"🇹🇭", color:"#0b6b1f,#b9d900", price:4200000, tag:"", image:"",
+  { name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, flags:["th"], color:"#0b6b1f,#b9d900", price:4200000, tag:"", image:"",
     items:["Bangkok dan Pattaya","Keberangkatan SIC, minimal 2 orang","Periode Nov 2026 sampai Mar 2027"] },
-  { name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, flag:"🇹🇭", color:"#064d16,#ffd500", price:null, tag:"", image:"",
+  { name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, flags:["th"], color:"#064d16,#ffd500", price:null, tag:"", image:"",
     items:["Bangkok dan Damnoen Saduak","Makan malam di kapal pesiar","Itinerari 4 hari"] }
 ];
 
@@ -52,7 +52,7 @@ function packageCard(p){
   return `
     <article class="card">
       <div class="card-top${p.image ? " has-img" : ""}" style="background:${p.image ? `linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.45)),url('${p.image}') center/cover no-repeat` : `linear-gradient(135deg,${p.color})`}">
-        <span class="flag" aria-hidden="true">${p.flag}</span>
+        <span class="flag" aria-hidden="true">${p.flags.map(c => `<img src="https://flagcdn.com/w80/${c}.png" alt="" width="44" height="30" loading="lazy">`).join("")}</span>
         ${p.tag ? `<span class="tag">${p.tag}</span>` : ""}
       </div>
       <div class="card-body">
