@@ -16,17 +16,17 @@ const SITE = {
 // flags: kode negara 2 huruf kecil (my, sg, th).
 // image: nama file gambar, harus persis sama dengan file di repo GitHub.
 const PACKAGES = [
-  { name:"Tour 3 Negara Asia 7D6N", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:7, nights:6, flags:["my","sg","th"], color:"#064d16,#1faa2e", price:6990000, tag:"", image:"tour-3-negara-7d6n.png",
+  { name:"Tour 3 Negara Asia 7D6N", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:7, nights:6, color:"#064d16,#1faa2e", price:6990000, tag:"", image:"tour-3-negara-7d6n.png",
     items:["Malaysia, Singapore, Thailand (Hatyai)","Jadwal Sep 2026 sampai Mar 2027","Bisa berangkat dari kota lain"] },
-  { name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, flags:["my","sg","th"], color:"#0b6b1f,#1faa2e", price:13200000, tag:"", image:"tour-3-negara-bangkok-pattaya-8d7.png",
+  { name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, color:"#0b6b1f,#1faa2e", price:13200000, tag:"", image:"tour-3-negara-bangkok-pattaya-8d7.png",
     items:["Malaysia, Singapore, Bangkok, Pattaya","Jadwal Sep 2026 sampai Mar 2027","Itinerari 8 hari lengkap"] },
-  { name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, flags:["my","sg"], color:"#064d16,#0b6b1f", price:null, tag:"", image:"tour-2-negara-4d3n.png",
+  { name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, color:"#064d16,#0b6b1f", price:6390000, tag:"", image:"tour-2-negara-4d3n.png",
     items:["Malaysia dan Singapore","Jadwal Sep 2026 sampai Mar 2027","Cocok untuk liburan singkat"] },
-  { name:"Tour 2 Negara Malaysia Singapore 5D4N", dest:"Malaysia Singapore", type:"2 Negara", days:5, nights:4, flags:["my","sg"], color:"#1faa2e,#7bd35b", price:null, tag:"", image:"tour-2-negara-5d4n.png",
+  { name:"Tour 2 Negara Malaysia Singapore 5D4N", dest:"Malaysia Singapore", type:"2 Negara", days:5, nights:4, color:"#1faa2e,#7bd35b", price:6590000, tag:"", image:"tour-2-negara-5d4n.png",
     items:["Malaysia dan Singapore","Waktu lebih longgar di tiap kota","Jadwal Sep 2026 sampai Mar 2027"] },
-  { name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, flags:["th"], color:"#0b6b1f,#b9d900", price:4200000, tag:"", image:"tour-bangkok-pattaya-4d3n.png",
+  { name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#0b6b1f,#b9d900", price:6450000, tag:"", image:"tour-bangkok-pattaya-4d3n.png",
     items:["Bangkok dan Pattaya","Keberangkatan SIC, minimal 2 orang","Periode Nov 2026 sampai Mar 2027"] },
-  { name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, flags:["th"], color:"#064d16,#ffd500", price:null, tag:"", image:"tour-bangkok-damnoen-dinner-cruise-4d3n.png",
+  { name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#064d16,#ffd500", price:6850000, tag:"", image:"tour-bangkok-damnoen-dinner-cruise-4d3n.png",
     items:["Bangkok dan Damnoen Saduak","Makan malam di kapal pesiar","Itinerari 4 hari"] }
 ];
 
