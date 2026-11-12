@@ -23,9 +23,9 @@ const PACKAGES = [
     items:["Malaysia dan Singapore","Jadwal Sep 2026 sampai Mar 2027","Cocok untuk liburan singkat"] },
   { name:"Tour 2 Negara Malaysia Singapore 5D4N", dest:"Malaysia Singapore", type:"2 Negara", days:5, nights:4, color:"#1faa2e,#7bd35b", price:null, tag:"", image:"tour-2-negara-5d4n.png",
     items:["Malaysia dan Singapore","Waktu lebih longgar di tiap kota","Jadwal Sep 2026 sampai Mar 2027"] },
-  { name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#0b6b1f,#b9d900", price:4200000, tag:"", image:"tour-bangkok-pattaya-4d3n.jpg",
+  { name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#0b6b1f,#b9d900", price:4200000, tag:"", image:"tour-bangkok-pattaya-4d3n.png",
     items:["Bangkok dan Pattaya","Keberangkatan SIC, minimal 2 orang","Periode Nov 2026 sampai Mar 2027"] },
-  { name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#064d16,#ffd500", price:null, tag:"", image:"tour-bangkok-damnoen-dinner-cruise-4d3n.jpg",
+  { name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#064d16,#ffd500", price:null, tag:"", image:"tour-bangkok-damnoen-dinner-cruise-4d3n.png",
     items:["Bangkok dan Damnoen Saduak","Makan malam di kapal pesiar","Itinerari 4 hari"] }
 ];
 
