@@ -96,14 +96,59 @@ const EXC_TH = ["Bagasi pesawat pulang pergi", "Tips driver dan guide Rp 380.000
 const COSTS_TH = ["DP paket tour (Land Tour + tiket pesawat): Rp 3.000.000 per orang. Pelunasan 20 hari sebelum tanggal keberangkatan.", "Pembelian Land Tour Only langsung pelunasan.", "Tips driver dan guide Rp 380.000/orang dibayarkan saat pelunasan."];
 
 /* ============================================================
+   JADWAL KEBERANGKATAN
+   departures: daftar tanggal "TAHUN-BULAN-TANGGAL", contoh ["2026-12-02","2026-12-16"]
+   atau pakai weekly(hari, dari, sampai, [tanggal yang dilewati])
+   hari: 0=Minggu, 1=Senin, 2=Selasa, 3=Rabu, 4=Kamis, 5=Jumat, 6=Sabtu
+   Tanggal yang sudah lewat otomatis disembunyikan di halaman detail.
+   ============================================================ */
+const isoOf = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const parseISO = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+const weekly = (weekday, from, to, skip = []) => {
+  const out = [], end = parseISO(to);
+  for (let d = parseISO(from); d <= end; d.setDate(d.getDate() + 1)) {
+    if (d.getDay() === weekday && !skip.includes(isoOf(d))) out.push(isoOf(d));
+  }
+  return out;
+};
+const departureDates = p => {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  return (p.departures || [])
+    .map(s => ({ date: parseISO(s.replace("*", "")), peak: s.endsWith("*") }))
+    .filter(x => x.date >= today)
+    .sort((a, b) => a.date - b.date);
+};
+// sched: tulis per bulan. Tanda * = periode high season (tanggal merah di flyer).
+const sched = obj => Object.entries(obj).flatMap(([ym, list]) =>
+  list.trim().split(/\s+/).map(t => `${ym}-${t.replace("*", "").padStart(2, "0")}${t.endsWith("*") ? "*" : ""}`));
+
+// Jadwal dari flyer "Jadwal Keberangkatan 2026 dan 2027" (tanggal = tanggal berangkat)
+const SCH_7D6N = {
+  "2026-10":"7 14 21 28", "2026-11":"4 11 18 25", "2026-12":"2 9 16* 23* 24* 27* 28* 29* 30*",
+  "2027-01":"6 13 20 27", "2027-02":"1", "2027-03":"6* 7* 8* 9* 10* 11* 12* 17* 24 31",
+  "2027-04":"7 14 21 28", "2027-05":"5 12 19 26", "2027-06":"2 9 16 23* 24* 25* 30*",
+  "2027-07":"1* 2* 3* 7 14 21 28", "2027-08":"4 11 18 25", "2027-09":"1 8 15 22 29",
+  "2027-10":"6 13 20 27", "2027-11":"3 10 17 24", "2027-12":"1 8 15 22* 23* 24* 27* 28* 29* 30* 31*"
+};
+// Dipakai paket 8D7N, 4D3N, dan 5D4N (tanggal berangkatnya sama di flyer)
+const SCH_STD = {
+  "2026-10":"7 14 21 28", "2026-11":"4 11 18 25", "2026-12":"2 9 16* 23* 24* 27* 31*",
+  "2027-01":"6 13 20 27", "2027-03":"6* 7* 8* 9* 10* 11* 12* 17 24 31",
+  "2027-04":"7 14 21 28", "2027-05":"5 19 26", "2027-06":"9 16 23* 24* 25* 30*",
+  "2027-07":"1* 2* 3* 7 14 21 28", "2027-08":"4 11 18 25", "2027-09":"1 8 15 22 29",
+  "2027-10":"6 13 20 27", "2027-11":"3 10 17 24", "2027-12":"1 8 15 22* 23* 24* 27* 28* 29* 30* 31*"
+};
+
+/* ============================================================
    DATA PAKET
    price: angka rupiah tanpa titik, atau null untuk "Hubungi kami"
    slug : nama unik untuk alamat detail (huruf kecil, pakai strip)
    ============================================================ */
 const PACKAGES = [
   { slug:"3-negara-7d6n", name:"Tour 3 Negara Asia 7D6N", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:7, nights:6, color:"#064d16,#1faa2e", price:6990000, tag:"", image:"tour-3-negara-7d6n.png",
-    items:["Malaysia, Singapore, Thailand (Hatyai)","Jadwal Sep 2026 sampai Mar 2027","Bisa berangkat dari kota lain"],
-    schedule:["Berangkat setiap Rabu","Periode Sep 2026 sampai Mar 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
+    items:["Malaysia, Singapore, Thailand (Hatyai)","Jadwal Okt 2026 sampai Des 2027","Bisa berangkat dari kota lain"],
+    schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
+    departures: sched(SCH_7D6N),
     bonus:["Free cable car Genting Highland","Bisa daftar 1 orang tanpa biaya tambahan"],
     itinerary:[
       dKL("Alamis Hotel / setaraf bintang 3, Kuala Lumpur"),
@@ -120,8 +165,9 @@ const PACKAGES = [
     terms: TERMS_MY },
 
   { slug:"3-negara-bangkok-pattaya-8d7n", name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, color:"#0b6b1f,#1faa2e", price:13200000, tag:"", image:"tour-3-negara-bangkok-pattaya-8d7n.png",
-    items:["Malaysia, Singapore, Bangkok, Pattaya","Jadwal Sep 2026 sampai Mar 2027","Itinerari 8 hari lengkap"],
-    schedule:["Periode Sep 2026 sampai Mar 2027","Tanggal pasti: tanya admin lewat WhatsApp","Meeting point: Bandara KLIA (Kuala Lumpur) dan Bandara BKK (Bangkok)"],
+    items:["Malaysia, Singapore, Bangkok, Pattaya","Jadwal Okt 2026 sampai Des 2027","Itinerari 8 hari lengkap"],
+    schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari kota lainnya","Meeting point: Bandara KLIA (Kuala Lumpur) dan Bandara BKK (Bangkok)"],
+    departures: sched(SCH_STD),
     bonus:["Free cable car Genting Highland"],
     itinerary:[
       dKL("Kingston 20 Hotel / setaraf bintang 3, Kuala Lumpur"),
@@ -139,8 +185,9 @@ const PACKAGES = [
     terms: TERMS_8D },
 
   { slug:"2-negara-4d3n", name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, color:"#064d16,#0b6b1f", price:6390000, tag:"", image:"tour-2-negara-4d3n.png",
-    items:["Malaysia dan Singapore","Jadwal Sep 2026 sampai Mar 2027","Cocok untuk liburan singkat"],
-    schedule:["Berangkat setiap Rabu","Periode Sep 2026 sampai Mar 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
+    items:["Malaysia dan Singapore","Jadwal Okt 2026 sampai Des 2027","Cocok untuk liburan singkat"],
+    schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
+    departures: sched(SCH_STD),
     bonus:["Free cable car Genting Highland","Bisa daftar 1 orang tanpa biaya tambahan"],
     itinerary:[
       dKL("Alamis Hotel / setaraf bintang 3, Kuala Lumpur"),
@@ -154,8 +201,9 @@ const PACKAGES = [
     terms: TERMS_MY },
 
   { slug:"2-negara-5d4n", name:"Tour 2 Negara Malaysia Singapore 5D4N", dest:"Malaysia Singapore", type:"2 Negara", days:5, nights:4, color:"#1faa2e,#7bd35b", price:6590000, tag:"", image:"tour-2-negara-5d4n.png",
-    items:["Malaysia dan Singapore","Waktu lebih longgar di tiap kota","Jadwal Sep 2026 sampai Mar 2027"],
-    schedule:["Periode Sep 2026 sampai Mar 2027","Tanggal pasti: tanya admin lewat WhatsApp","Meeting point: Bandara KLIA, Kuala Lumpur"],
+    items:["Malaysia dan Singapore","Waktu lebih longgar di tiap kota","Jadwal Okt 2026 sampai Des 2027"],
+    schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari kota lainnya","Meeting point: Bandara KLIA, Kuala Lumpur"],
+    departures: sched(SCH_STD),
     bonus:["Free cable car Genting Highland","Bisa daftar 1 orang tanpa biaya tambahan"],
     itinerary:[
       dKL("Alamis Hotel / setaraf bintang 3, Kuala Lumpur"),
@@ -170,8 +218,9 @@ const PACKAGES = [
     terms: TERMS_MY },
 
   { slug:"bangkok-pattaya-4d3n", name:"Tour Bangkok Pattaya 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#0b6b1f,#b9d900", price:6450000, tag:"", image:"tour-bangkok-pattaya-4d3n.png",
-    items:["Bangkok dan Pattaya","Keberangkatan SIC, minimal 2 orang","Periode Nov 2026 sampai Mar 2027"],
-    schedule:["Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
+    items:["Bangkok dan Pattaya","Berangkat setiap hari, minimal 2 orang (SIC)","Periode Nov 2026 sampai Mar 2027"],
+    schedule:["Berangkat setiap hari, bebas pilih tanggal","Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
+    daily:["2026-11-01","2027-03-31"],
     itinerary:[
       ["Tiba di Bangkok", "Penjemputan di bandara, check in hotel, bermalam di Bangkok.", "Tidak ada", ""],
       dPattaya(""),
@@ -184,9 +233,10 @@ const PACKAGES = [
     terms: TERMS_TH },
 
   { slug:"bangkok-damnoen-dinner-cruise-4d3n", name:"Bangkok Damnoen Dinner Cruise 4D3N", dest:"Thailand", type:"Thailand", days:4, nights:3, color:"#064d16,#ffd500", price:6850000, tag:"", image:"tour-bangkok-damnoen-dinner-cruise-4d3n.png",
-    items:["Bangkok dan Damnoen Saduak","Makan malam di kapal pesiar","Itinerari 4 hari"],
-    schedule:["Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
+    items:["Bangkok dan Damnoen Saduak","Makan malam di kapal pesiar","Berangkat setiap hari, bebas pilih tanggal"],
+    schedule:["Berangkat setiap hari, bebas pilih tanggal","Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
     bonus:["Free Calypso Cabaret Show di Asiatique the Riverfront Night Market"],
+    daily:["2026-11-01","2027-03-31"],
     itinerary:[
       ["Tiba di Bangkok", "Penjemputan dari bandara, transfer check in hotel, bermalam di Bangkok.", "Tidak ada", ""],
       ["Bangkok - Damnoen", "Damnoen Saduak Floating Market (termasuk boat canal tour sekitar 45-60 menit), Meaklong Railway Market, makan siang di restoran lokal. Kembali ke Bangkok: Erawadee Herb Shop, Icon Siam dan Sook Siam Floating Market di dalam mall, lalu Chao Phraya Dinner Cruise. Kembali ke hotel.", "Makan pagi, siang, dan makan malam di cruise", ""],

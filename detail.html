@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detail Paket | Alzaz Tour &amp; Travel</title>
+<meta name="description" content="Detail paket tour Alzaz Tour & Travel: itinerary, jadwal keberangkatan, fasilitas, dan syarat ketentuan.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .d-grid{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start;margin-top:-34px;position:relative;z-index:2}
+  .d-img{width:100%;display:block;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;background:#e5f3dc}
+  .d-box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:20px}
+  .d-box h2{font-family:'Baloo 2',sans-serif;color:var(--green-900);font-size:1.3rem;margin:0 0 12px}
+  .d-side{position:sticky;top:90px}
+  .d-price small{display:block;color:var(--muted)}
+  .d-price strong{font-family:'Baloo 2',sans-serif;font-size:2rem;color:var(--green-700)}
+  .d-meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
+  .d-meta span{background:var(--yellow-soft);color:var(--green-900);font-weight:700;border-radius:999px;padding:4px 14px;font-size:.9rem}
+  .d-two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .d-two h3{margin:0 0 8px;color:var(--green-900)}
+  ul.ok,ul.no,ul.plain{list-style:none;padding:0;margin:0}
+  ul.ok li,ul.no li,ul.plain li{margin:7px 0;padding-left:26px;position:relative}
+  ul.ok li::before{content:"✓";position:absolute;left:0;color:var(--green-700);font-weight:800}
+  ul.no li::before{content:"✕";position:absolute;left:0;color:#c0392b;font-weight:800}
+  ul.plain li::before{content:"•";position:absolute;left:6px;color:var(--green-700);font-weight:800}
+  details{border:2px solid #e3eedd;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+  summary{cursor:pointer;font-weight:700;color:var(--green-900)}
+  details p{margin:8px 0 0;color:var(--muted)}
+  ol.terms{margin:0;padding-left:20px}
+  ol.terms li{margin:7px 0}
+  .d-side .btn{display:block;text-align:center;margin-top:10px}
+  .d-month{margin:14px 0 0}
+  .d-month strong{display:block;color:var(--green-900);margin-bottom:6px}
+  .d-dates{display:flex;flex-wrap:wrap;gap:8px}
+  .d-date{border:2px solid #d5e5cc;border-radius:999px;padding:6px 14px;font-weight:700;color:var(--green-700);text-decoration:none;background:#fff}
+  .d-date:hover{background:var(--green-700);color:#fff;border-color:var(--green-700)}
+  .d-date.peak{border-color:#f0b5b5;color:#c0392b}
+  .d-date.peak:hover{background:#c0392b;color:#fff;border-color:#c0392b}
+  .peak-label{color:#c0392b;font-weight:700}
+  .d-hint{color:var(--muted);font-size:.9rem;margin:12px 0 0}
+  @media (max-width:900px){
+    .d-grid{grid-template-columns:1fr;margin-top:-24px}
+    .d-side{position:static;order:-1}
+    .d-two{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body data-page="paket">
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page-hero" style="padding-bottom:70px">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Beranda</a> / <a href="paket.html">Paket Wisata</a> / <span id="crumb">Detail</span></div>
+      <h1 id="title">Detail Paket</h1>
+      <p id="subtitle"></p>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap" id="detail"></div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-box">
+        <div>
+          <h2>Masih ada yang mau ditanyakan?</h2>
+          <p>Tim kami siap bantu cek jadwal, harga terbaru, dan sisa kursi.</p>
+        </div>
+        <a class="btn btn-wa" data-wa="Halo Alzaz Tour, saya ingin bertanya tentang paket wisata." href="#">Tanya lewat WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="site.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const root = document.getElementById("detail");
+    const p = findPackage(new URLSearchParams(location.search).get("p"));
+
+    if (!p) {
+      root.innerHTML = `<div class="d-box" style="margin-top:-34px;position:relative;z-index:2;text-align:center">
+        <h2>Paket tidak ditemukan</h2>
+        <p>Paket yang Anda cari mungkin sudah tidak tersedia.</p>
+        <a class="btn btn-wa" href="paket.html">Lihat semua paket</a></div>`;
+      return;
+    }
+
+    document.title = `${p.name} | ${SITE.name}`;
+    document.getElementById("crumb").textContent = p.name;
+    document.getElementById("title").textContent = p.name;
+    document.getElementById("subtitle").textContent = `${p.days} hari ${p.nights} malam · ${p.dest}`;
+
+    const li = arr => arr.map(x => `<li>${x}</li>`).join("");
+    const included = p.included || [];
+    const excluded = p.excluded || [];
+    const terms = p.terms || [];
+    const msg = `Halo Alzaz Tour, saya ingin tanya jadwal dan harga terbaru paket ${p.name} (${p.days} hari ${p.nights} malam).`;
+    const fullDate = d => d.toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    const deps = departureDates(p);
+    const byMonth = {};
+    deps.forEach(x => { const k = x.date.toLocaleDateString("id-ID", { month: "long", year: "numeric" }); (byMonth[k] = byMonth[k] || []).push(x); });
+    const hasPeak = deps.some(x => x.peak);
+    let datesHtml = "";
+    if (deps.length) {
+      datesHtml = `<h3 style="margin:18px 0 0;color:var(--green-900)">Tanggal keberangkatan</h3>` +
+        Object.entries(byMonth).map(([m, arr]) => `<div class="d-month"><strong>${m}</strong><div class="d-dates">${arr.map(x => {
+          const full = fullDate(x.date);
+          const m2 = `Halo Alzaz Tour, saya ingin daftar paket ${p.name} untuk keberangkatan ${full}${x.peak ? " (high season)" : ""}. Apakah masih tersedia?`;
+          return `<a class="d-date${x.peak ? " peak" : ""}" href="${wa(m2)}" target="_blank" rel="noopener" title="Tanya ketersediaan ${full}">${x.date.toLocaleDateString("id-ID", { weekday: "short", day: "numeric" })}</a>`;
+        }).join("")}</div></div>`).join("") +
+        `<p class="d-hint">${hasPeak ? `<span class="peak-label">Merah</span> = periode high season. ` : ""}Klik tanggal untuk tanya ketersediaan kursi lewat WhatsApp. Jadwal dan harga dapat berubah.</p>`;
+    } else if (p.daily) {
+      const today = isoOf(new Date());
+      const minD = today > p.daily[0] ? today : p.daily[0];
+      datesHtml = `<h3 style="margin:18px 0 8px;color:var(--green-900)">Pilih tanggal keberangkatan</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <input type="date" id="dpick" min="${minD}" max="${p.daily[1]}" aria-label="Tanggal keberangkatan" style="padding:10px 14px;border:2px solid #d5e5cc;border-radius:12px;font:inherit">
+          <button type="button" class="btn btn-wa" id="dgo">Tanya tanggal ini</button>
+        </div>
+        <p class="d-hint">Berangkat setiap hari, bebas pilih tanggal dalam periode ${new Date(p.daily[0]).toLocaleDateString("id-ID", { month: "long", year: "numeric" })} sampai ${parseISO(p.daily[1]).toLocaleDateString("id-ID", { month: "long", year: "numeric" })}. Harga bisa berbeda di periode high season, konfirmasi lewat WhatsApp.</p>`;
+    }
+    const priceHtml = p.price
+      ? `<small>Mulai dari</small><strong>${rupiah(p.price)}</strong> <span>/orang</span>`
+      : `<small>Harga</small><strong>Hubungi kami</strong>`;
+
+    root.innerHTML = `
+      <div class="d-grid">
+        <div class="d-main">
+          ${p.image ? `<img class="d-img" src="${p.image}" alt="Brosur ${p.name}" onerror="this.style.display='none'">` : ""}
+
+          ${p.schedule ? `<div class="d-box"><h2>Jadwal Keberangkatan</h2><ul class="plain">${li(p.schedule)}</ul>${datesHtml}</div>` : ""}
+
+          ${p.itinerary ? `<div class="d-box"><h2>Itinerary</h2>
+            ${p.itinerary.map((d, i) => `<details${i === 0 ? " open" : ""}><summary>Hari ${i + 1}: ${d[0]}</summary><p>${d[1]}</p>${d[2] ? `<p><strong>Makan:</strong> ${d[2]}</p>` : ""}${d[3] ? `<p><strong>Hotel:</strong> ${d[3]}</p>` : ""}</details>`).join("")}
+          </div>` : ""}
+
+          <div class="d-box"><h2>Fasilitas Paket</h2>
+            <div class="d-two">
+              <div><h3>Termasuk</h3><ul class="ok">${li(included)}</ul></div>
+              <div><h3>Tidak termasuk</h3><ul class="no">${li(excluded)}</ul></div>
+            </div>
+            ${p.bonus ? `<h3 style="margin-top:18px;color:var(--green-900)">Bonus</h3><ul class="ok">${li(p.bonus)}</ul>` : ""}
+          </div>
+
+          ${p.costs ? `<div class="d-box"><h2>Biaya Tambahan dan Pembayaran</h2><ul class="plain">${li(p.costs)}</ul></div>` : ""}
+
+          <div class="d-box"><h2>Syarat dan Ketentuan</h2><ol class="terms">${li(terms)}</ol></div>
+        </div>
+
+        <aside class="d-side">
+          <div class="d-box">
+            <div class="d-price">${priceHtml}</div>
+            <div class="d-meta"><span>${p.days} hari ${p.nights} malam</span><span>${p.type === "Thailand" ? "1 Negara" : p.type}</span></div>
+            <p style="color:var(--muted);margin:0">Harga dan jadwal bisa berubah mengikuti musim. Konfirmasi dulu lewat WhatsApp ya.</p>
+            <a class="btn btn-wa" href="${wa(msg)}" target="_blank" rel="noopener">Pesan lewat WhatsApp</a>
+            <a class="btn btn-outline" href="paket.html">Lihat paket lain</a>
+          </div>
+        </aside>
+      </div>`;
+
+    const go = document.getElementById("dgo");
+    if (go) go.addEventListener("click", () => {
+      const v = document.getElementById("dpick").value;
+      if (!v) { alert("Pilih tanggal dulu ya."); return; }
+      window.open(wa(`Halo Alzaz Tour, saya ingin daftar paket ${p.name} untuk keberangkatan ${fullDate(parseISO(v))}. Apakah masih tersedia?`), "_blank", "noopener");
+    });
+  });
+</script>
+</body>
+</html>
