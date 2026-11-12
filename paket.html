@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paket Wisata | Alzaz Tour &amp; Travel</title>
+<meta name="description" content="Daftar paket tour Malaysia, Singapore, dan Thailand dari Alzaz Tour &amp; Travel. Pilih paket 2 negara, 3 negara, atau Thailand, lalu pesan lewat WhatsApp.">
+<meta property="og:title" content="Paket Wisata | Alzaz Tour &amp; Travel">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .filter-bar{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;display:grid;grid-template-columns:repeat(3,1fr) auto;gap:14px;align-items:end;margin-top:-34px;position:relative;z-index:2}
+  .filter-bar .btn{padding:12px 22px}
+  .result-line{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:28px 0 18px}
+  .result-line p{color:var(--muted);font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:2px solid #d5e5cc;background:#fff;color:var(--green-700);font:inherit;font-weight:700;border-radius:999px;padding:6px 16px;cursor:pointer}
+  .chip:hover{border-color:var(--green-500)}
+  .chip.on{background:var(--green-700);border-color:var(--green-700);color:#fff}
+  .info-box{margin-top:34px;background:var(--yellow-soft);border-radius:var(--radius);padding:20px 24px;color:var(--green-900)}
+  .info-box strong{display:block;margin-bottom:4px;font-family:'Baloo 2',sans-serif;font-size:1.15rem}
+  .empty{display:none;text-align:center;color:var(--muted);padding:40px 10px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
+  .empty .btn{margin-top:14px}
+  @media (max-width:960px){.filter-bar{grid-template-columns:1fr 1fr}}
+  @media (max-width:640px){.filter-bar{grid-template-columns:1fr;margin-top:-24px}}
+</style>
+
+<!-- Pasang Meta Pixel di sini -->
+<!-- Pasang Google Analytics di sini -->
+</head>
+<body data-page="paket">
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page-hero" style="padding-bottom:70px">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Beranda</a> / Paket Wisata</div>
+      <h1>Paket Wisata</h1>
+      <p>Tour Malaysia, Singapore, dan Thailand dengan jadwal keberangkatan tetap. Pilih paket yang cocok, lalu tanyakan jadwal dan harga terbaru lewat WhatsApp.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <form class="filter-bar" id="filters" onsubmit="return false" aria-label="Saring paket">
+        <div class="field">
+          <label for="fDest">Tujuan</label>
+          <select id="fDest"><option value="all">Semua tujuan</option></select>
+        </div>
+        <div class="field">
+          <label for="fType">Rute</label>
+          <select id="fType">
+            <option value="all">Semua rute</option>
+            <option value="3 Negara">3 Negara</option>
+            <option value="2 Negara">2 Negara</option>
+            <option value="Thailand">Thailand</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fDur">Durasi</label>
+          <select id="fDur">
+            <option value="all">Berapa hari saja</option>
+            <option value="short">Sampai 4 hari</option>
+            <option value="long">5 hari atau lebih</option>
+          </select>
+        </div>
+        <button class="btn btn-outline" type="button" id="reset">Atur ulang</button>
+      </form>
+
+      <div class="result-line">
+        <p id="count" aria-live="polite"></p>
+        <div class="chips" id="chips" role="group" aria-label="Pilih cepat"></div>
+      </div>
+
+      <div class="grid" id="pkgGrid"></div>
+
+      <div class="empty" id="pkgEmpty">
+        <p>Belum ada paket yang cocok dengan pilihan Anda.</p>
+        <p>Ceritakan rencana Anda, kami bantu susun paket khusus.</p>
+        <a class="btn btn-wa" data-wa="Halo Alzaz Tour, saya mencari paket perjalanan tapi belum menemukan yang cocok. Boleh dibantu?" href="#">Tanya lewat WhatsApp</a>
+      </div>
+
+      <div class="info-box">
+        <strong>Sebelum memesan</strong>
+        Jadwal keberangkatan dan harga dapat berubah mengikuti musim dan ketersediaan kursi. Hubungi kami lewat WhatsApp untuk konfirmasi jadwal, rincian fasilitas, dan syarat pembayaran.
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-box">
+        <div>
+          <h2>Ingin paket di luar daftar ini?</h2>
+          <p>Kami bisa bantu susun perjalanan sesuai tujuan, jumlah peserta, dan anggaran Anda.</p>
+        </div>
+        <a class="btn btn-wa" data-wa="Halo Alzaz Tour, saya ingin dibuatkan paket perjalanan khusus." href="#">Tanya lewat WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="site.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const grid = document.getElementById("pkgGrid");
+    const empty = document.getElementById("pkgEmpty");
+    const count = document.getElementById("count");
+    const fDest = document.getElementById("fDest");
+    const fType = document.getElementById("fType");
+    const fDur = document.getElementById("fDur");
+    const chips = document.getElementById("chips");
+
+    [...new Set(PACKAGES.map(p => p.dest))].forEach(d => {
+      const o = document.createElement("option"); o.value = d; o.textContent = d; fDest.appendChild(o);
+    });
+
+    // Pilihan cepat berdasarkan rute
+    const quick = [["all","Semua"],["3 Negara","3 Negara"],["2 Negara","2 Negara"],["Thailand","Thailand"]];
+    chips.innerHTML = quick.map(([v,l]) => `<button type="button" class="chip" data-v="${v}">${l}</button>`).join("");
+
+    // Baca pilihan dari alamat, misalnya paket.html?type=2%20Negara
+    const q = new URLSearchParams(location.search);
+    const setIfValid = (el, v) => { if (v && [...el.options].some(o => o.value === v)) el.value = v; };
+    setIfValid(fDest, q.get("dest")); setIfValid(fType, q.get("type")); setIfValid(fDur, q.get("dur"));
+
+    function render(){
+      const list = PACKAGES.filter(p =>
+        (fDest.value === "all" || p.dest === fDest.value) &&
+        (fType.value === "all" || p.type === fType.value) &&
+        (fDur.value === "all" || (fDur.value === "short" ? p.days <= 4 : p.days >= 5))
+      );
+      grid.innerHTML = list.map(packageCard).join("");
+      grid.style.display = list.length ? "" : "none";
+      empty.style.display = list.length ? "none" : "block";
+      count.textContent = `Menampilkan ${list.length} dari ${PACKAGES.length} paket`;
+      chips.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c.dataset.v === fType.value));
+    }
+
+    [fDest, fType, fDur].forEach(el => el.addEventListener("change", render));
+    chips.addEventListener("click", e => {
+      const b = e.target.closest(".chip"); if (!b) return;
+      fType.value = b.dataset.v; render();
+    });
+    document.getElementById("reset").addEventListener("click", () => {
+      fDest.value = fType.value = fDur.value = "all"; render();
+    });
+
+    render();
+    // tautan WhatsApp pada kartu dan kotak kosong
+    document.querySelectorAll("[data-wa]").forEach(a => { a.href = wa(a.dataset.wa); a.target = "_blank"; a.rel = "noopener"; });
+  });
+</script>
+</body>
+</html>
