@@ -9,7 +9,6 @@ const SITE = {
   email: "Alzaztourtravel@gmail.com",
   instagram: "alzaztour",
   HeadOffice: "Jl Gundih GG 1 no 29 Kel Gundih kec Bubutan,kota Surabaya",
-  Branchofficebekasi : "Ruko Kalimas Blok A 12 Jl. Chairil Anwar Bekasi Timur "
   hours: "Senin sampai Sabtu, 09.00 sampai 17.00"
 };
 
