@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alzaz Tour &amp; Travel | Paket Wisata Malaysia, Singapore, Thailand</title>
+<meta name="description" content="Alzaz Tour &amp; Travel melayani paket wisata Malaysia, Singapore, dan Thailand, tiket pesawat, dan sewa bus. Konsultasi gratis lewat WhatsApp.">
+<meta property="og:title" content="Alzaz Tour &amp; Travel">
+<meta property="og:description" content="Paket wisata Malaysia, Singapore, dan Thailand. Konsultasi gratis lewat WhatsApp.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<!-- Pasang Meta Pixel di sini -->
+<!-- Pasang Google Analytics di sini -->
+</head>
+<body data-page="home">
+
+<div id="site-header"></div>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow" style="background:var(--yellow);color:var(--green-900)">Biro perjalanan terpercaya</span>
+        <h1>Liburan impian, <span>kami urus semuanya.</span></h1>
+        <p>Paket wisata Malaysia, Singapore, dan Thailand, tiket pesawat, dan sewa bus. Ceritakan rencana Anda, kami siapkan perjalanannya.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" data-wa="Halo Alzaz Tour, saya ingin konsultasi gratis untuk rencana liburan." href="#">Konsultasi Gratis</a>
+          <a class="btn btn-ghost" href="paket.html">Lihat Semua Paket</a>
+        </div>
+        <ul class="hero-points">
+          <li>Itinerari jelas</li>
+          <li>Harga transparan</li>
+          <li>Respon cepat via WhatsApp</li>
+        </ul>
+      </div>
+      <img class="hero-logo" src="logo.png" alt="Logo Alzaz Tour: dua traveler membawa koper" width="380" height="380">
+    </div>
+  </section>
+
+  <section class="finder" aria-label="Cari paket">
+    <div class="wrap">
+      <form class="finder-box" id="finder" action="paket.html" method="get">
+        <div class="field">
+          <label for="fDest">Tujuan</label>
+          <select id="fDest" name="dest"><option value="all">Semua tujuan</option></select>
+        </div>
+        <div class="field">
+          <label for="fType">Rute</label>
+          <select id="fType" name="type">
+            <option value="all">Semua rute</option>
+            <option value="3 Negara">3 Negara</option>
+            <option value="2 Negara">2 Negara</option>
+            <option value="Thailand">Thailand</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fDur">Durasi</label>
+          <select id="fDur" name="dur">
+            <option value="all">Berapa hari saja</option>
+            <option value="short">Sampai 4 hari</option>
+            <option value="long">5 hari atau lebih</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Cari Paket</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="packages">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Paket unggulan</span>
+        <h2>Pilih paket tour Asia Tenggara</h2>
+        <p>Tanggal keberangkatan dan harga bisa berubah mengikuti musim. Klik tombol pesan untuk tanya jadwal terbaru.</p>
+      </div>
+      <div class="grid" id="pkgGrid"></div>
+      <div class="more"><a class="btn btn-outline" href="paket.html">Lihat semua paket</a></div>
+    </div>
+  </section>
+
+  <section class="services">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Layanan</span>
+        <h2>Semua kebutuhan perjalanan di satu tempat</h2>
+      </div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+        <article class="service"><div class="ico" aria-hidden="true">🌴</div><h3>Paket Wisata</h3><p>Tour Malaysia, Singapore, dan Thailand dengan jadwal keberangkatan tetap.</p></article>
+        <article class="service"><div class="ico" aria-hidden="true">✈️</div><h3>Tiket Pesawat</h3><p>Bantuan pemesanan tiket untuk perjalanan pribadi, keluarga, atau rombongan.</p></article>
+        <article class="service"><div class="ico" aria-hidden="true">🚌</div><h3>Sewa Bus</h3><p>Bus pariwisata untuk study tour, kantor, dan acara keluarga.</p></article>
+        <article class="service"><div class="ico" aria-hidden="true">🛂</div><h3>Bantuan Dokumen</h3><p>Pendampingan persiapan dokumen perjalanan ke luar negeri.</p></article>
+      </div>
+      <div class="more"><a class="btn btn-outline" href="layanan.html">Selengkapnya tentang layanan</a></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Kenapa Alzaz Tour</span>
+        <h2>Liburan tenang, tanpa pusing urusan teknis</h2>
+      </div>
+      <div class="teaser-grid">
+        <div class="mini"><h3>Itinerari ditulis jelas</h3><p>Anda tahu tempat, jadwal, dan fasilitas yang termasuk sebelum membayar.</p></div>
+        <div class="mini"><h3>Harga terbuka</h3><p>Yang termasuk dan tidak termasuk harga dijelaskan di awal.</p></div>
+        <div class="mini"><h3>Mudah dihubungi</h3><p>Tanya apa saja lewat WhatsApp, dari persiapan sampai Anda pulang.</p></div>
+      </div>
+      <div class="more"><a class="btn btn-outline" href="kenapa-kami.html">Kenali kami lebih dekat</a></div>
+    </div>
+  </section>
+
+  <section class="steps">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Cara pesan</span>
+        <h2>Empat langkah menuju keberangkatan</h2>
+      </div>
+      <div class="step-grid">
+        <div class="step"><b>1</b><h3>Hubungi kami</h3><p>Sebutkan tujuan, jumlah peserta, dan perkiraan tanggal.</p></div>
+        <div class="step"><b>2</b><h3>Terima penawaran</h3><p>Kami kirim itinerari dan rincian harga.</p></div>
+        <div class="step"><b>3</b><h3>Konfirmasi dan bayar</h3><p>Amankan kursi dengan uang muka sesuai ketentuan paket.</p></div>
+        <div class="step"><b>4</b><h3>Berangkat</h3><p>Kami kirim jadwal akhir dan panduan sebelum hari keberangkatan.</p></div>
+      </div>
+      <div class="more"><a class="btn btn-primary" href="cara-pesan.html">Lihat cara pesan lengkap</a></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-box">
+        <div>
+          <h2>Belum menemukan paket yang cocok?</h2>
+          <p>Ceritakan rencana Anda. Kami bantu susun perjalanan sesuai tujuan dan anggaran.</p>
+        </div>
+        <a class="btn btn-wa" data-wa="Halo Alzaz Tour, saya ingin dibuatkan paket perjalanan khusus." href="#">Tanya lewat WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="site.js"></script>
+<script>
+  // Isi pilihan tujuan dan tampilkan 3 paket unggulan di beranda
+  document.addEventListener("DOMContentLoaded", () => {
+    const fDest = document.getElementById("fDest");
+    [...new Set(PACKAGES.map(p => p.dest))].forEach(d => {
+      const o = document.createElement("option"); o.value = d; o.textContent = d; fDest.appendChild(o);
+    });
+    document.getElementById("pkgGrid").innerHTML = PACKAGES.slice(0, 3).map(packageCard).join("");
+  });
+</script>
+</body>
+</html>
