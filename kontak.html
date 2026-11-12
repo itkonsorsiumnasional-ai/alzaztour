@@ -89,6 +89,7 @@
               <div><label for="fNama">Nama</label><input id="fNama" name="nama" type="text" placeholder="Nama lengkap" autocomplete="name" required></div>
               <div><label for="fHp">No. WhatsApp</label><input id="fHp" name="hp" type="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"></div>
             </div>
+            <div><label for="fEmail">Email <span style="color:#c0392b">*</span></label><input id="fEmail" name="email" type="email" placeholder="nama@email.com" autocomplete="email" required></div>
             <div><label for="fPaket">Paket / tujuan yang diminati</label><input id="fPaket" name="paket" type="text" placeholder="Contoh: Tour 3 Negara Asia 7D6N"></div>
             <div class="k-row">
               <div><label for="fTgl">Rencana keberangkatan</label><input id="fTgl" name="tgl" type="date"></div>
@@ -211,6 +212,8 @@
       e.preventDefault();
       const v = id => document.getElementById(id).value.trim();
       if (!v("fNama")) { alert("Isi nama Anda dulu ya."); document.getElementById("fNama").focus(); return; }
+      if (!v("fEmail")) { alert("Email wajib diisi ya."); document.getElementById("fEmail").focus(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v("fEmail"))) { alert("Format email belum benar. Contoh: nama@email.com"); document.getElementById("fEmail").focus(); return; }
 
       const tgl = v("fTgl")
         ? new Date(v("fTgl") + "T00:00:00").toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
@@ -219,6 +222,7 @@
         "Halo Alzaz Tour, saya ingin bertanya.",
         "",
         `Nama: ${v("fNama")}`,
+        `Email: ${v("fEmail")}`,
         v("fHp")    && `No. WhatsApp: ${v("fHp")}`,
         v("fPaket") && `Paket/tujuan: ${v("fPaket")}`,
         tgl         && `Rencana berangkat: ${tgl}`,
