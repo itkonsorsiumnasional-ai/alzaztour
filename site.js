@@ -18,7 +18,7 @@ const SITE = {
 const PACKAGES = [
   { name:"Tour 3 Negara Asia 7D6N", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:7, nights:6, color:"#064d16,#1faa2e", price:6990000, tag:"", image:"tour-3-negara-7d6n.png",
     items:["Malaysia, Singapore, Thailand (Hatyai)","Jadwal Sep 2026 sampai Mar 2027","Bisa berangkat dari kota lain"] },
-  { name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, color:"#0b6b1f,#1faa2e", price:13200000, tag:"", image:"tour-3-negara-bangkok-pattaya-8d7.png",
+  { name:"Tour 3 Negara Asia 8D7N Bangkok Pattaya", dest:"Malaysia Singapore Thailand", type:"3 Negara", days:8, nights:7, color:"#0b6b1f,#1faa2e", price:13200000, tag:"", image:"tour-3-negara-bangkok-pattaya-8d7n.png",
     items:["Malaysia, Singapore, Bangkok, Pattaya","Jadwal Sep 2026 sampai Mar 2027","Itinerari 8 hari lengkap"] },
   { name:"Tour 2 Negara Malaysia Singapore 4D3N", dest:"Malaysia Singapore", type:"2 Negara", days:4, nights:3, color:"#064d16,#0b6b1f", price:6390000, tag:"", image:"tour-2-negara-4d3n.png",
     items:["Malaysia dan Singapore","Jadwal Sep 2026 sampai Mar 2027","Cocok untuk liburan singkat"] },
