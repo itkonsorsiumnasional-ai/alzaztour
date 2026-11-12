@@ -32,12 +32,28 @@
   .k-form textarea{min-height:110px;resize:vertical}
   .k-form .btn{width:100%;text-align:center;cursor:pointer;border:0}
   .k-note{color:var(--muted);font-size:.88rem;margin:0}
-  .k-map{margin-top:28px}
-  .k-map .k-box{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
-  .k-map h2{margin:0}
+  .k-offices{margin-top:36px}
+  .k-offices>h2{font-family:'Baloo 2',sans-serif;color:var(--green-900);font-size:1.6rem;margin:0 0 4px}
+  .k-offices>p{color:var(--muted);margin:0 0 18px}
+  .k-ogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .k-office{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+  .k-office iframe{width:100%;height:220px;border:0;display:block;background:#e5f3dc}
+  .k-obody{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .k-tag{align-self:flex-start;background:var(--yellow-soft);color:var(--green-900);font-weight:800;font-size:.8rem;border-radius:999px;padding:3px 12px}
+  .k-office h3{margin:0;font-family:'Baloo 2',sans-serif;color:var(--green-900);font-size:1.2rem}
+  .k-office address{font-style:normal;color:var(--muted);line-height:1.5}
+  .k-tel{font-weight:700;color:var(--green-700);text-decoration:none}
+  .k-tel:hover{text-decoration:underline}
+  .k-obody .btn{margin-top:auto;text-align:center}
+  @media (max-width:980px){
+    .k-ogrid{grid-template-columns:1fr 1fr}
+  }
   @media (max-width:900px){
     .k-grid{grid-template-columns:1fr;margin-top:-24px}
     .k-row{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .k-ogrid{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -113,7 +129,26 @@
     wa:      "",                           // contoh: "0812-3456-7890" (tampilan saja; link WhatsApp memakai wa() dari site.js)
     telp:    "",                           // contoh: "021-1234567"
     email:   "",                           // contoh: "info@alzaztour.com"
-    alamat:  "",                           // alamat kantor lengkap
+    kantor: [
+      {
+        tag: "Kantor Pusat",
+        nama: "Head Office Surabaya",
+        alamat: "Jl. Gundih Gg 1 No. 29, Kel. Gundih, Kec. Bubutan, Kota Surabaya",
+        telp: ""
+      },
+      {
+        tag: "Cabang",
+        nama: "Branch Office Bekasi",
+        alamat: "Ruko Kalimas Blok A 12, Jl. Chairil Anwar, Bekasi Timur",
+        telp: "(021) 8834 1177"
+      },
+      {
+        tag: "Cabang",
+        nama: "Branch Office Graha Raya Bintaro",
+        alamat: "Ruko Venice Blok JE No. 8, Jl. Boulevard Graha Raya Bintaro, Tangerang Selatan",
+        telp: "(021) 5314 0007"
+      }
+    ],
     instagram: "",                         // contoh: "@alzaztour"
     jam:     "Senin - Sabtu, 09.00 - 17.00 WIB",
     jamCatatan: "Di luar jam kerja, pesan tetap kami balas di hari berikutnya."
@@ -129,7 +164,10 @@
     if (KONTAK.telp)      items.push({ ico: "📞", t: "Telepon", d: KONTAK.telp, href: "tel:" + digits(KONTAK.telp) });
     if (KONTAK.email)     items.push({ ico: "✉️", t: "Email", d: KONTAK.email, href: "mailto:" + KONTAK.email });
     if (KONTAK.instagram) items.push({ ico: "📸", t: "Instagram", d: KONTAK.instagram, href: "https://instagram.com/" + KONTAK.instagram.replace("@", ""), ext: true });
-    if (KONTAK.alamat)    items.push({ ico: "📍", t: "Alamat Kantor", d: KONTAK.alamat });
+    (KONTAK.kantor || []).forEach(k => {
+      if (k.telp) items.push({ ico: "📞", t: "Telepon " + k.nama.replace(/^(Head Office|Branch Office)\s*/, "").replace(/^/, k.tag === "Cabang" ? "Cabang " : "Pusat "), d: k.telp, href: "tel:" + digits(k.telp) });
+    });
+    items.push({ ico: "📍", t: "3 Kantor", d: "Surabaya, Bekasi, dan Graha Raya Bintaro. Lihat peta di bawah.", href: "#kantor" });
 
     document.getElementById("kList").innerHTML = items.map(i => {
       const inner = `<div class="k-ico">${i.ico}</div><div><strong>${esc(i.t)}</strong><span>${esc(i.d)}</span></div>`;
@@ -141,10 +179,24 @@
     document.getElementById("kHours").innerHTML =
       `🕘 Jam Operasional<br>${esc(KONTAK.jam)}${KONTAK.jamCatatan ? `<small>${esc(KONTAK.jamCatatan)}</small>` : ""}`;
 
-    if (KONTAK.alamat) {
-      document.getElementById("kMap").innerHTML = `<div class="k-box">
-        <div><h2>Kunjungi Kantor Kami</h2><p class="k-sub" style="margin:6px 0 0">${esc(KONTAK.alamat)}</p></div>
-        <a class="btn btn-outline" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(KONTAK.alamat)}">Buka di Google Maps</a>
+    const kantor = KONTAK.kantor || [];
+    if (kantor.length) {
+      document.getElementById("kMap").innerHTML = `<div class="k-offices" id="kantor">
+        <h2>Kunjungi Kantor Kami</h2>
+        <p>Alamat dan lokasi kantor Alzaz Tour &amp; Travel.</p>
+        <div class="k-ogrid">${kantor.map(k => {
+          const q = encodeURIComponent(k.alamat);
+          return `<article class="k-office">
+            <iframe title="Peta ${esc(k.nama)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${q}&output=embed"></iframe>
+            <div class="k-obody">
+              <span class="k-tag">${esc(k.tag)}</span>
+              <h3>${esc(k.nama)}</h3>
+              <address>${esc(k.alamat)}</address>
+              ${k.telp ? `<a class="k-tel" href="tel:${digits(k.telp)}">☎️ ${esc(k.telp)}</a>` : ""}
+              <a class="btn btn-outline" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${q}">Buka di Google Maps</a>
+            </div>
+          </article>`;
+        }).join("")}</div>
       </div>`;
     }
 
