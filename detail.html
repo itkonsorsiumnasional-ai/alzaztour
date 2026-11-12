@@ -16,7 +16,8 @@
   .d-img{width:100%;display:block;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;background:#e5f3dc}
   .d-box{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:20px}
   .d-box h2{font-family:'Baloo 2',sans-serif;color:var(--green-900);font-size:1.3rem;margin:0 0 12px}
-  .d-side{position:sticky;top:90px}
+  .d-side{position:sticky;top:90px;max-height:calc(100vh - 110px);overflow-y:auto;scrollbar-width:thin}
+  .d-side .d-box:last-child{margin-bottom:0}
   .d-price small{display:block;color:var(--muted)}
   .d-price strong{font-family:'Baloo 2',sans-serif;font-size:2rem;color:var(--green-700)}
   .d-meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
@@ -34,18 +35,30 @@
   ol.terms{margin:0;padding-left:20px}
   ol.terms li{margin:7px 0}
   .d-side .btn{display:block;text-align:center;margin-top:10px}
-  .d-month{margin:14px 0 0}
-  .d-month strong{display:block;color:var(--green-900);margin-bottom:6px}
+
+  /* ===== Jadwal keberangkatan (di bawah harga) ===== */
+  .sch-box h2{font-size:1.35rem;line-height:1.25;margin:0 0 6px}
+  .sch-sub{margin:0;color:var(--muted);font-size:.95rem}
+  .sch-hr{border:0;border-top:1px solid #e3eedd;margin:14px 0}
+  .sch-note{margin:0 0 6px;color:var(--muted);font-size:.95rem}
+  .peak-label{color:#c0392b;font-weight:800}
+  details.sch-m{border:0;border-bottom:1px solid #e3eedd;border-radius:0;padding:0;margin:0}
+  details.sch-m summary{list-style:none;display:flex;justify-content:space-between;align-items:center;padding:13px 0;text-transform:uppercase;font-size:.98rem;letter-spacing:.2px}
+  details.sch-m summary::-webkit-details-marker{display:none}
+  details.sch-m summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--green-700);border-bottom:2px solid var(--green-700);transform:rotate(45deg);margin:-4px 4px 0 0;transition:transform .2s}
+  details.sch-m[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+  details.sch-m .d-dates{padding:0 0 14px}
   .d-dates{display:flex;flex-wrap:wrap;gap:8px}
-  .d-date{border:2px solid #d5e5cc;border-radius:999px;padding:6px 14px;font-weight:700;color:var(--green-700);text-decoration:none;background:#fff}
+  .d-date{border:2px solid #d5e5cc;border-radius:999px;padding:6px 14px;font-weight:700;color:var(--green-700);text-decoration:none;background:#fff;font-size:.92rem}
   .d-date:hover{background:var(--green-700);color:#fff;border-color:var(--green-700)}
-  .d-date.peak{border-color:#f0b5b5;color:#c0392b}
+  .d-date.peak{border-color:#f0b5b5;color:#c0392b;background:#fff5f5}
   .d-date.peak:hover{background:#c0392b;color:#fff;border-color:#c0392b}
-  .peak-label{color:#c0392b;font-weight:700}
-  .d-hint{color:var(--muted);font-size:.9rem;margin:12px 0 0}
+  .d-hint{color:var(--muted);font-size:.88rem;margin:12px 0 0}
+  .sch-city{display:block;text-align:center;margin-top:16px;padding:13px 16px;border-radius:14px;background:var(--green-900);color:#fff;font-weight:800;text-decoration:none;transition:background .2s}
+  .sch-city:hover{background:var(--green-700);color:#fff}
   @media (max-width:900px){
     .d-grid{grid-template-columns:1fr;margin-top:-24px}
-    .d-side{position:static;order:-1}
+    .d-side{position:static;order:-1;max-height:none;overflow:visible}
     .d-two{grid-template-columns:1fr}
   }
 </style>
@@ -106,30 +119,46 @@
     const excluded = p.excluded || [];
     const terms = p.terms || [];
     const msg = `Halo Alzaz Tour, saya ingin tanya jadwal dan harga terbaru paket ${p.name} (${p.days} hari ${p.nights} malam).`;
+    const cityMsg = `Halo Alzaz Tour, saya ingin tanya apakah paket ${p.name} (${p.days} hari ${p.nights} malam) bisa berangkat dari kota lain. Kota keberangkatan saya: `;
     const fullDate = d => d.toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+
+    /* ---------- Jadwal keberangkatan (tampil di bawah harga) ---------- */
     const deps = departureDates(p);
     const byMonth = {};
     deps.forEach(x => { const k = x.date.toLocaleDateString("id-ID", { month: "long", year: "numeric" }); (byMonth[k] = byMonth[k] || []).push(x); });
     const hasPeak = deps.some(x => x.peak);
-    let datesHtml = "";
+    const years = [...new Set(deps.map(x => x.date.getFullYear()))].sort();
+    const cityBtn = `<a class="sch-city" href="${wa(cityMsg)}" target="_blank" rel="noopener">✈️ Bisa berangkat dari kota lainnya</a>`;
+    const head = (yearLabel) => `<h2>Jadwal Keberangkatan${yearLabel ? " " + yearLabel : ""}</h2>
+        <p class="sch-sub">${p.name} — ${p.dest}</p><hr class="sch-hr">`;
+
+    let schedBox = "";
     if (deps.length) {
-      datesHtml = `<h3 style="margin:18px 0 0;color:var(--green-900)">Tanggal keberangkatan</h3>` +
-        Object.entries(byMonth).map(([m, arr]) => `<div class="d-month"><strong>${m}</strong><div class="d-dates">${arr.map(x => {
+      schedBox = `<div class="d-box sch-box">
+        ${head(years.join(" & "))}
+        ${hasPeak ? `<p class="sch-note">Tanggal berwarna <span class="peak-label">merah</span> adalah periode High Season.</p>` : ""}
+        ${Object.entries(byMonth).map(([m, arr]) => `<details class="sch-m"><summary>${m}</summary><div class="d-dates">${arr.map(x => {
           const full = fullDate(x.date);
           const m2 = `Halo Alzaz Tour, saya ingin daftar paket ${p.name} untuk keberangkatan ${full}${x.peak ? " (high season)" : ""}. Apakah masih tersedia?`;
           return `<a class="d-date${x.peak ? " peak" : ""}" href="${wa(m2)}" target="_blank" rel="noopener" title="Tanya ketersediaan ${full}">${x.date.toLocaleDateString("id-ID", { weekday: "short", day: "numeric" })}</a>`;
-        }).join("")}</div></div>`).join("") +
-        `<p class="d-hint">${hasPeak ? `<span class="peak-label">Merah</span> = periode high season. ` : ""}Klik tanggal untuk tanya ketersediaan kursi lewat WhatsApp. Jadwal dan harga dapat berubah.</p>`;
+        }).join("")}</div></details>`).join("")}
+        <p class="d-hint">Klik tanggal untuk tanya ketersediaan kursi lewat WhatsApp. Jadwal dan harga dapat berubah.</p>
+        ${cityBtn}
+      </div>`;
     } else if (p.daily) {
       const today = isoOf(new Date());
       const minD = today > p.daily[0] ? today : p.daily[0];
-      datesHtml = `<h3 style="margin:18px 0 8px;color:var(--green-900)">Pilih tanggal keberangkatan</h3>
+      schedBox = `<div class="d-box sch-box">
+        ${head("")}
         <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
           <input type="date" id="dpick" min="${minD}" max="${p.daily[1]}" aria-label="Tanggal keberangkatan" style="padding:10px 14px;border:2px solid #d5e5cc;border-radius:12px;font:inherit">
-          <button type="button" class="btn btn-wa" id="dgo">Tanya tanggal ini</button>
+          <button type="button" class="btn btn-wa" id="dgo" style="margin:0">Tanya tanggal ini</button>
         </div>
-        <p class="d-hint">Berangkat setiap hari, bebas pilih tanggal dalam periode ${new Date(p.daily[0]).toLocaleDateString("id-ID", { month: "long", year: "numeric" })} sampai ${parseISO(p.daily[1]).toLocaleDateString("id-ID", { month: "long", year: "numeric" })}. Harga bisa berbeda di periode high season, konfirmasi lewat WhatsApp.</p>`;
+        <p class="d-hint">Berangkat setiap hari, bebas pilih tanggal dalam periode ${new Date(p.daily[0]).toLocaleDateString("id-ID", { month: "long", year: "numeric" })} sampai ${parseISO(p.daily[1]).toLocaleDateString("id-ID", { month: "long", year: "numeric" })}. Harga bisa berbeda di periode high season, konfirmasi lewat WhatsApp.</p>
+        ${cityBtn}
+      </div>`;
     }
+
     const priceHtml = p.price
       ? `<small>Mulai dari</small><strong>${rupiah(p.price)}</strong> <span>/orang</span>`
       : `<small>Harga</small><strong>Hubungi kami</strong>`;
@@ -139,7 +168,7 @@
         <div class="d-main">
           ${p.image ? `<img class="d-img" src="${p.image}" alt="Brosur ${p.name}" onerror="this.style.display='none'">` : ""}
 
-          ${p.schedule ? `<div class="d-box"><h2>Jadwal Keberangkatan</h2><ul class="plain">${li(p.schedule)}</ul>${datesHtml}</div>` : ""}
+          ${p.schedule ? `<div class="d-box"><h2>Jadwal Keberangkatan</h2><ul class="plain">${li(p.schedule)}</ul></div>` : ""}
 
           ${p.itinerary ? `<div class="d-box"><h2>Itinerary</h2>
             ${p.itinerary.map((d, i) => `<details${i === 0 ? " open" : ""}><summary>Hari ${i + 1}: ${d[0]}</summary><p>${d[1]}</p>${d[2] ? `<p><strong>Makan:</strong> ${d[2]}</p>` : ""}${d[3] ? `<p><strong>Hotel:</strong> ${d[3]}</p>` : ""}</details>`).join("")}
@@ -166,6 +195,7 @@
             <a class="btn btn-wa" href="${wa(msg)}" target="_blank" rel="noopener">Pesan lewat WhatsApp</a>
             <a class="btn btn-outline" href="paket.html">Lihat paket lain</a>
           </div>
+          ${schedBox}
         </aside>
       </div>`;
 
