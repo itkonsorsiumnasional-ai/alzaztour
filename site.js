@@ -4,9 +4,9 @@
    ============================================================ */
 const SITE = {
   name: "Alzaz Tour & Travel",
-  waNumber: "628120000000",          // format 62..., tanpa tanda + atau 0 di depan
-  waDisplay: "0812-0000-0000",
-  email: "halo@alzaztour.com",
+  waNumber: "6289521758554",          // format 62..., tanpa tanda + atau 0 di depan
+  waDisplay: "0895-2175-8554",
+  email: "Alzaztourtravel@gmail.com",
   instagram: "alzaztour",
   address: "Isi alamat kantor di sini",
   hours: "Senin sampai Sabtu, 09.00 sampai 17.00"
