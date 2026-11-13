@@ -271,8 +271,7 @@ const NAV = [
   ["home",     "index.html",         "Beranda"],
   ["paket",    "paket.html",         "Paket Wisata"],
   ["layanan",  "layanan.html",       "Layanan"],
-  ["kenapa",   "kenapa-kami.html",   "Kenapa Kami"],
-  ["pesan",    "cara-pesan.html",    "Cara Pesan"],
+  ["dokumentasi", "dokumentasi.html", "Dokumentasi"],
   ["kontak",   "kontak.html",        "Kontak"]
 ];
 
@@ -365,6 +364,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll("[data-wa]").forEach(a => {
     a.href = wa(a.dataset.wa); a.target = "_blank"; a.rel = "noopener";
+  });
+
+  // Halaman Kenapa Kami dan Cara Pesan digabung menjadi Dokumentasi
+  document.querySelectorAll('a[href="kenapa-kami.html"], a[href="cara-pesan.html"]').forEach(a => {
+    a.href = "dokumentasi.html"; a.textContent = "Lihat dokumentasi perjalanan";
   });
 
   const toggle = document.getElementById("menuToggle");
