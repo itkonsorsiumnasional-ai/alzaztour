@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dokumentasi | Alzaz Tour &amp; Travel</title>
+<meta name="description" content="Dokumentasi perjalanan bersama Alzaz Tour & Travel: foto keberangkatan dan kegiatan tour Malaysia, Singapore, dan Thailand.">
+<meta property="og:title" content="Dokumentasi | Alzaz Tour &amp; Travel">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+  .chip{border:2px solid #d5e5cc;background:#fff;color:var(--green-700);font:inherit;font-weight:700;border-radius:999px;padding:6px 18px;cursor:pointer}
+  .chip:hover{border-color:var(--green-500)}
+  .chip.on{background:var(--green-700);border-color:var(--green-700);color:#fff}
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .shot{position:relative;display:block;padding:0;border:0;border-radius:var(--radius);overflow:hidden;cursor:zoom-in;background:#e5f3dc;box-shadow:var(--shadow);aspect-ratio:4/3}
+  .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+  .shot:hover img{transform:scale(1.06)}
+  .shot span{position:absolute;left:0;right:0;bottom:0;padding:26px 14px 10px;color:#fff;font-weight:700;font-size:.92rem;text-align:left;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.6))}
+  .empty{display:none;text-align:center;padding:48px 20px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
+  .empty .ico{font-size:2.6rem}
+  .empty h2{font-family:'Baloo 2',sans-serif;color:var(--green-900);margin:8px 0}
+  .empty p{color:var(--muted);margin:0 0 16px}
+  .lb{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:20px}
+  .lb.open{display:flex}
+  .lb figure{margin:0;max-width:min(1100px,100%);text-align:center}
+  .lb img{max-width:100%;max-height:78vh;border-radius:12px;display:block;margin:0 auto}
+  .lb figcaption{color:#fff;margin-top:12px;font-weight:700}
+  .lb button{position:absolute;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:1.6rem;width:46px;height:46px;border-radius:50%;cursor:pointer}
+  .lb button:hover{background:rgba(255,255,255,.3)}
+  .lb .x{top:16px;right:16px}.lb .pv{left:14px;top:50%}.lb .nx{right:14px;top:50%}
+</style>
+<!-- Pasang Meta Pixel di sini -->
+<!-- Pasang Google Analytics di sini -->
+</head>
+<body data-page="dokumentasi">
+
+<div id="site-header"></div>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Beranda</a> / Dokumentasi</div>
+      <h1>Dokumentasi</h1>
+      <p>Momen perjalanan bersama Alzaz Tour. Lihat langsung suasana keberangkatan dan kegiatan tour kami.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="chips" id="chips" role="group" aria-label="Saring dokumentasi"></div>
+      <div class="gal" id="gal"></div>
+
+      <div class="empty" id="empty">
+        <div class="ico" aria-hidden="true">📸</div>
+        <h2>Dokumentasi segera hadir</h2>
+        <p>Foto perjalanan peserta kami akan ditampilkan di sini. Sementara itu, ceritakan rencana liburan Anda.</p>
+        <a class="btn btn-wa" data-wa="Halo Alzaz Tour, saya ingin melihat dokumentasi perjalanan sebelumnya." href="#">Tanya lewat WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-box">
+        <div>
+          <h2>Siap jadi bagian dari dokumentasi berikutnya?</h2>
+          <p>Pilih paket dan tanggal keberangkatan, kami bantu sampai Anda berangkat.</p>
+        </div>
+        <a class="btn btn-primary" href="paket.html">Lihat paket wisata</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto dokumentasi">
+  <button class="x" id="lbX" aria-label="Tutup">&times;</button>
+  <button class="pv" id="lbP" aria-label="Foto sebelumnya">&#8249;</button>
+  <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <button class="nx" id="lbN" aria-label="Foto berikutnya">&#8250;</button>
+</div>
+
+<script src="site.js"></script>
+<script>
+/* ============================================================
+   DAFTAR FOTO DOKUMENTASI
+   Cara menambah foto: unggah file foto ke repo (folder yang sama
+   dengan index.html), lalu tambahkan satu baris di bawah ini.
+     src : nama file foto persis (huruf besar/kecil harus sama)
+     cap : keterangan singkat di bawah foto
+     cat : kelompok, pilih salah satu: "Malaysia", "Singapore", "Thailand", "Keberangkatan"
+   Contoh:
+     { src:"dok-klcc-1.jpg", cap:"Rombongan di KLCC, Kuala Lumpur", cat:"Malaysia" },
+   Selama daftar masih kosong, halaman menampilkan "Dokumentasi segera hadir".
+   ============================================================ */
+const DOCS = [
+  // { src:"dok-1.jpg", cap:"Keterangan foto", cat:"Malaysia" },
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+  const gal = document.getElementById("gal");
+  const chips = document.getElementById("chips");
+  const empty = document.getElementById("empty");
+  const lb = document.getElementById("lb");
+  const lbImg = document.getElementById("lbImg");
+  const lbCap = document.getElementById("lbCap");
+  let shown = [], idx = 0, cat = "Semua";
+
+  if (!DOCS.length) { empty.style.display = "block"; chips.style.display = "none"; return; }
+
+  const cats = ["Semua", ...new Set(DOCS.map(d => d.cat).filter(Boolean))];
+  chips.innerHTML = cats.map(c => `<button type="button" class="chip${c === cat ? " on" : ""}" data-c="${c}">${c}</button>`).join("");
+
+  function render(){
+    shown = DOCS.filter(d => cat === "Semua" || d.cat === cat);
+    gal.innerHTML = shown.map((d, i) =>
+      `<button type="button" class="shot" data-i="${i}" aria-label="Perbesar foto: ${d.cap || ""}">
+         <img src="${d.src}" alt="${d.cap || "Dokumentasi Alzaz Tour"}" loading="lazy" onerror="this.closest('.shot').style.display='none'">
+         ${d.cap ? `<span>${d.cap}</span>` : ""}
+       </button>`).join("");
+    chips.querySelectorAll(".chip").forEach(b => b.classList.toggle("on", b.dataset.c === cat));
+  }
+  function open(i){
+    idx = (i + shown.length) % shown.length;
+    lbImg.src = shown[idx].src; lbImg.alt = shown[idx].cap || "";
+    lbCap.textContent = shown[idx].cap || "";
+    lb.classList.add("open");
+  }
+  const close = () => lb.classList.remove("open");
+
+  chips.addEventListener("click", e => { const b = e.target.closest(".chip"); if (b) { cat = b.dataset.c; render(); } });
+  gal.addEventListener("click", e => { const b = e.target.closest(".shot"); if (b) open(+b.dataset.i); });
+  document.getElementById("lbX").onclick = close;
+  document.getElementById("lbP").onclick = () => open(idx - 1);
+  document.getElementById("lbN").onclick = () => open(idx + 1);
+  lb.addEventListener("click", e => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", e => {
+    if (!lb.classList.contains("open")) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") open(idx - 1);
+    if (e.key === "ArrowRight") open(idx + 1);
+  });
+  render();
+});
+</script>
+</body>
+</html>
