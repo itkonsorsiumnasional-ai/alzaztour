@@ -8,31 +8,80 @@ const SITE = {
   waDisplay: "0895-2175-8554",
   email: "Alzaztourtravel@gmail.com",
   instagram: "alzaztour",
-  HeadOffice: "Jl Gundih GG 1 no 29 Kel Gundih kec Bubutan,kota Surabaya",
+  address: "Isi alamat kantor di sini",
   hours: "Senin sampai Sabtu, 09.00 sampai 17.00"
 };
 
 /* ============================================================
-   BAHAN ITINERARY (dipakai ulang antar paket)
-   Format hari: [judul, isi, makan, hotel]
+   ITINERARY (teks persis seperti di brosur PDF, tidak diringkas)
+   Format hari: [judul hari, isi, hotel]
    ============================================================ */
-const M_NONE = "Tidak ada (makan siang dan malam mandiri di sekitar hotel)";
-const M_BLD = "Makan pagi, siang, dan malam";
-const M_BL = "Makan pagi dan siang";
-const M_B = "Makan pagi";
+const H_D1 = "DAY 1 : KUALA LUMPUR (No Meal)";
+const H_D2 = "DAY 2 : KUALA LUMPUR - GENTING HIGHLAND - PUTRAJAYA - JOHOR BAHRU (B,L,D)";
+const H_D3 = "DAY 3 : JOHOR BAHRU - SINGAPORE CITY TOUR - MELAKA (B,L,D)";
 
-const dKL = hotel => ["Kuala Lumpur",
-  "Meeting point Bandara KLIA. Peserta berangkat dari kota masing-masing sesuai jadwal penerbangan. Tiba di Kuala Lumpur, dijemput local guide dan diantar ke hotel untuk beristirahat. Acara bebas.", M_NONE, hotel];
-const dGenting = hotel => ["Kuala Lumpur - Genting Highland - Putrajaya - Johor Bahru",
-  "Menuju Genting Highland dengan cable car (gratis), lalu makan siang di restoran lokal. Dilanjutkan ke Batu Caves Temple, belanja makanan lokal Malaysia, Istana Negara, KLCC Petronas Twin Tower, Chocolate Factory, dan Putrajaya (photo stop). Makan malam di restoran lokal, lalu menuju Johor Bahru.", M_BLD, hotel];
-const dSG = (hotel) => ["Johor Bahru - Singapore City Tour - Melaka",
-  "Menyeberang ke Singapore: Jewel Changi Airport, Merlion Park, Sentosa Island (Universal Studio, photo stop), Singapore souvenir center, Gardens by the Bay, dan Orchard Road. Keluar imigrasi Singapore menuju Melaka, makan malam di restoran lokal.", M_BLD, hotel];
-const dMelakaKL = hotel => ["Melaka - Kuala Lumpur",
-  "Tour Melaka (photo stop): Gedung Merah, Benteng Portugis, Jonker Street, dan lainnya. Lanjut ke Kuala Lumpur, makan siang di restoran lokal, check in hotel, acara bebas.", M_BL, hotel];
-const dPattaya = hotel => ["Bangkok - Pattaya",
-  "Honey Bee Farm, Great and Grand Sweet Destination, Valley of Dinosaurs (Dinosaurs Park) dengan bus tour, Nongnooch Village (termasuk Thai Culture dan Elephant Show) dengan makan siang prasmanan, Laser Buddha Hill, Erawadee Herb Shop, dan Pattaya Beach di Hard Rock Cafe. Optional cabaret show. Makan malam di restoran lokal, check in hotel di Pattaya.", M_BLD, hotel];
-const dBkkBack = hotel => ["Pattaya - Bangkok",
-  "Kembali ke Bangkok: Gems Gallery Museum of The Stone dengan train ride, Dried Food Local Product Center, Platinum Fashion Mall (makan siang dengan kupon THB 150/orang), Wat Arun, lalu wisata Sungai Chao Phraya dengan perahu ke Icon Siam Mall dan Sook Siam Floating Market. Makan malam mandiri di Asiatique the Riverfront Night Market.", "Makan pagi dan makan siang (kupon)", hotel];
+const T_D1 = "Meeting Point bandara KLIA, Peserta berangkat dari masing-masing kota sesuai jadwal penerbangan dan bersiap menuju Kuala Lumpur, tiba di Kuala Lumpur peserta akan di jemput dengan Local guide malaysia dan diantarkan ke hotel di Kuala Lumpur untuk beristirahat (makan siang dan makan malam dilakukan sendiri oleh tamu di sekitar hotel), Acara bebas.";
+
+const T_D2_SINGLE = "Selesai makan pagi, perjalanan dilanjutkan menuju Genting Highland (photo stop) yang merupakan pusat hiburan keluarga dan arena bermain kasino dengan menggunakan Cable Car (free), makan siang dilokal restoran, mengunjungi Batu Cave Temple (photo stop) yang merupakan kuil India terbesar di Malaysia, berbelanja Makanan Lokal Produk Malaysia, lalu mengunjungi Istana Negara (photo stop) yang merupakan tempat kediaman yang dipertuan agung, menuju KLCC Petronas Twin Tower (photo Stop), mengunjungi Chocolate Factory, perjalanan dilanjutkan menuju Putrajaya (photo stop), Putrajaya adalah merupakan pusat pemerintahan Malaysia, lanjut Makan malam di lokal restoran, lanjut menuju Johor Bahru, check in hotel di Johor Bahru, Istirahat & Acara Bebas.";
+const T_D2_7D6N = "Selesai makan pagi, perjalanan dilanjutkan menuju Genting Highland (photo stop) yang merupakan pusat hiburan keluarga dan arena bermain kasino dengan menggunakan Cable Car (free), makan siang dilokal restoran, mengunjungi Batu Cave Temple (photo stop) yang merupakan kuil India terbesar di Malaysia,, berbelanja Makanan Lokal Produk Malaysia, lalu mengunjungi Istana Negara (photo stop) yang merupakan tempat kediaman yang dipertuan agung, menuju KLCC Petronas Twin Tower (photo Stop), mengunjungi Chocolate Factory, perjalanan dilanjutkan menuju Putrajaya (photo stop), Putrajaya adalah merupakan pusat pemerintahan Malaysia, lanjut Makan malam di lokal restoran, lanjut menuju Johor Bahru, check in hotel di Johor Bahru, Istirahat & Acara Bebas.";
+const T_D2_8D7N = "Selesai makan pagi, perjalanan dilanjutkan menuju Genting Highland (photo stop) yang merupakan pusat hiburan keluarga dan arena bermain kasino dengan menggunakan Cable Car (free), makan siang dilokal restoran, mengunjungi Batu Cave Temple (photo stop) yang merupakan kuil India terbesar di Malaysia,, berbelanja Makanan Lokal Produk Malaysia, lalu mengunjungi IstanaNegara (photo stop) yang merupakan tempat kediaman yang dipertuan agung, menuju KLCC Petronas Twin Tower (photo Stop), mengunjungi Chocolate Factory, perjalanan dilanjutkan menuju Putrajaya (photo stop), Putrajaya adalah merupakan pusat pemerintahan Malaysia, lanjut Makan malam di lokal restoran, lanjut menuju Johor Bahru, check in hotel di Johor Bahru, Istirahat & Acara Bebas.";
+
+const T_D3_A = "Setelah makan pagi melanjutkan perjalanan ke Singapore menyebrang ke perbatasan, Tiba Singapore, mengunjugi Jewels Airport Changi (photo stop), Lanjut mengunjungi Merlion Park (photo stop), Makan Siang dilokal restoran, dilanjutkan menuju Sentosa Island, UniversalStudio (photo Stop), lalu berbelanja di Singapore souvenir center, photo stop di Gardens By The Bay, Orchard Road, menuju Imigrasi keluardari singapore dan selanjutnya menuju Melaka, makan malam dilokal restoran, Tiba di Melaka, check in hotel, Istirahat & Acara Bebas.";
+const T_D3_4D3N = "Setelah makan pagi melanjutkan perjalanan ke Singapore menyebrang ke perbatasan, Tiba Singapore, langsung menuju Singapore Jewel Changi Airport (photo stop), lalu mengunjungi Merlion Park (photo stop), Makan Siang dilokal restoran, Lanjut Tour menuju Sentosa Island, Universal Studio (photo Stop), lalu berbelanja di Singapore souvenir center ,Photo Stop Gardens By The Bay, lanjut Orchard Road, perjalanan dilanjutkan menuju Border keluar dari singapore dan selanjutnya menuju Melaka, makan malam dilokal restoran, Tiba di Melaka, check in hotel, Istirahat & Acara Bebas.";
+const T_D3_5D4N = "Setelah makan pagi melanjutkan perjalanan ke Singapore menyebrang ke perbatasan, Tiba Singapore, langsung menuju Singapore Jewel Changi Airport (photo stop), lalu mengunjungi Merlion Park (photo stop), Makan Siang dilokal restoran, Lanjut Tour menuju Sentosa Island, Universal Studio (photo Stop), lalu berbelanja di Singapore souvenir center , Photo Stop Gardens By The Bay, lanjut Orchard Road, perjalanan dilanjutkan menuju Border keluar dari singapore dan selanjutnya menuju Melaka, makan malam dilokal restoran, Tiba di Melaka, check in hotel, Istirahat & Acara Bebas.";
+
+const T_MELAKA_KL = "Setelah makan pagi , Tour Melaka (photo stop) mengunjungi Gedung Merah Melaka, Benteng Portugis, Jonker Street, dll. Lanjut perjalanan ke Kuala Lumpur, makan siang dilokal restoran, check in hotel, Istirahat & Acara Bebas.";
+const T_PATTAYA = "Sarapan di Hotel, Check out from hotel, berkunjung ke Honey Bee farm, Great and Grand Sweet Destination, Bus tour to The Valley of Dinosaurs (Dinosaurs Park), Nongnooch Village (Include Thai Culture and Elephant Show) makan siang prasmanan di Nongnooch Village, Laser Buddha Hill, Erawadee Herb Shop, Pattaya Beach at Hard Rock Cafe, optional cabaret show, makan malam di Local restaurant, Check in hotel di Pattaya.";
+
+const IT_7D6N = [
+  [H_D1, T_D1, "Alamis Hotel / setaraf*3 Kuala Lumpur"],
+  [H_D2, T_D2_7D6N, "Millesime Hotel / setaraf*3 Johor Bahru"],
+  [H_D3, T_D3_A, "Balik Pulau Hotel / setaraf *3 Melaka"],
+  ["DAY 4 : MELAKA - DANNOK (THAILAND) (B,L,D)", "Setelah makan pagi , Tour Melaka (photo stop) mengunjungi Gedung Merah Melaka, Benteng Portugis, Jonker Street,dll. lalu perjalanan dilanjutkan menuju Dannok (Thailand), makan siang & makan malam dilokal restoran, Tiba di Dannok, check in hotel, Istirahat & Acara Bebas.", "M Hotel/ setaraf *3 Dannok Thailand"],
+  ["DAY 5 : HATYAI CITY TOUR (THAILAND) (B,L)", "Selesai makan pagi, lalu mengunjungi Erawadee Thai Herbal Shop, lanjut belanja oleh” di Toko Kaos Kaysorn, belanja Lokal Produk di Nora Plaza (Barang Kulit khas Thailand), Makan siang dilokal restoran, lanjut menuju Sleeping Buddha (Wat Phranon Laem Pho), mengunjungi Samila Beach, Mermaid Statue, menuju HATYAI FLOATING MARKET (buka khusus weekend) untuk makan malam masing2, lalu Check in hotel,istirahat & acara bebas.", "ATK Garden Hotel/ setaraf *3 Hatyai Thailand"],
+  ["DAY 6 : HATYAI - KUALA LUMPUR (B,L,D)", "Setelah makan pagi, perjalanan menuju Kuala Lumpur , makan siang dilokal restoran, lanjut perjalanan menuju Kuala Lumpur, makan malam dilokal restoran, Check in Hotel, Acara bebas.", "Alamis Hotel / setaraf*3 Kuala Lumpur"],
+  ["DAY 7 : TRANSFER OUT (B)", "Free time sambil menunggu schedule keberangkatan ke masing-masing kota peserta dan selanjutnya diantarkan menuju KLIA. Acara Tour Selesai.", ""]
+];
+
+const IT_4D3N = [
+  [H_D1, T_D1, "Alamis Hotel / setaraf *3 Kuala Lumpur"],
+  [H_D2, T_D2_SINGLE, "Millesime Hotel / setaraf *3 Johor Bahru"],
+  [H_D3, T_D3_4D3N, "Balik Pulau Hotel / setaraf *3 Melaka"],
+  ["DAY 4 : MELAKA - TRANSFER OUT (B,L)", "Setelah makan pagi , Tour Melaka (photo stop) mengunjungi Gedung Merah Melaka, Benteng Portugis, Jonker Street, dll. Lanjut perjalanan ke Kuala Lumpur, makan siang dilokal restoran dan selanjutnya diantarkan menuju KLIA. Acara Tour Selesai.", ""]
+];
+
+const IT_5D4N = [
+  [H_D1, T_D1, "Alamis Hotel / setaraf *3 Kuala Lumpur"],
+  [H_D2, T_D2_SINGLE, "Millesime Hotel / setaraf *3 Johor Bahru"],
+  [H_D3, T_D3_5D4N, "Balik Pulau Hotel / setaraf *3 Melaka"],
+  ["DAY 4 : MELAKA - KUALA LUMPUR (B,L)", T_MELAKA_KL, "Alamis Hotel / setaraf *3 Kuala Lumpur"],
+  ["DAY 5 : TRANSFER OUT (B)", "Free time sambil menunggu schedule keberangkatan ke masing-masing kota peserta. Acara Tour Selesai.", ""]
+];
+
+const IT_8D7N = [
+  [H_D1, T_D1, "Kingston 20 Hotel / setaraf *3 Kuala Lumpur"],
+  [H_D2, T_D2_8D7N, "Millesime Hotel / setaraf*3 Johor Bahru"],
+  [H_D3, T_D3_A, "Kingston 17 Hotel/ setaraf *3Melaka"],
+  ["DAY 4 : MELAKA –KUALA LUMPUR (B,L)", T_MELAKA_KL, "Kingston 05 Hotel / setaraf *3 Kuala Lumpur"],
+  ["DAY 5 : KUALA LUMPUR - BANGKOK(THAILAND) (B)", "Selesai makan pagi, lalu sampai waktunya di antarkan ke bandara untuk penerbangan menuju Bangkok, Tiba di Bangkok peserta akan di jemput oleh Guide, lalu Check in hotel,istirahat & acara bebas.", "Thomson Hotel / setaraf *3 Bangkok (Thailand)"],
+  ["DAY 6 : BANGKOK - PATTAYA (B,L,D)", T_PATTAYA, "The Season Hotel / setaraf *3 Pattaya (Thailand)"],
+  ["DAY 7 : PATTAYA - BANGKOK (B/LUNCH COUPON)", "Setelah sarapan di hotel, check out dari hotel, Kembali ke Bangkok, Gems Gallery Museum of The Stone with Train Ride, back Bangkok, Dried Food local Product Center, Platinum Fashion Mall, Lunch at Platinum Mall by Coupon THB150/pax, Wat Arun (Kuil Fajar), wisata Chaophraya River dengan perahu wisata ke Icon Siam Mall & Sook Siam Floating Market in The Mall, makan malam dengan biaya sendiri di Asia Tique the Riverfront Night Market, lalu check in hotel di Bangkok.", "Thomson Hotel / setaraf *3 Bangkok (Thailand)"],
+  ["DAY 8 : DEPARTURES (BREAKFAST)", "Setelah sarapa di Hotel, menunggu penjemputan ke Bandara.", ""]
+];
+
+const IT_BP = [
+  ["DAY 1 : ARR - BANGKOK (NO MEALS)", "Penjemputan di Bandara, lalu check in hotel, bermalam at Bangkok.", ""],
+  ["DAY 2 : BANGKOK - PATTAYA (BREAKFAST/LUNCH/DINNER)", T_PATTAYA, ""],
+  ["DAY 3 : PATTAYA - BANGKOK (BREAKFAST/LUNCH COUPON)", "Setelah sarapan di hotel, check out dari hotel, Kembali ke Bangkok, Gems Gallery Museum of The Stone with Train Ride, back Bangkok, Dried Food local Product Center, Platinum Fashion Mall, Lunch at Platinum Mall by Coupon THB150/pax, Wat Arun (Kuil Fajar), wisata Chaophraya River dengan perahu wisata ke Icon Siam Mall & Sook Siam Floating Market in The Mall, an malam dengan biaya sendiri di Asia Tique the Riverfront Night Market, lalu check in hotel di Bangkok.", ""],
+  ["DAY 4 : DEPARTURES (BREAKFAST)", "Setelah sarapa di Hotel, menunggu penjemputan ke Bandara.", ""]
+];
+
+const IT_DAMNOEN = [
+  ["DAY 1 : ARR - BANGKOK (NO MEALS)", "Penjemputan dari airport, Transfer untuk check in hotel, bermalam di Bangkok.", ""],
+  ["DAY 2 : BANGKOK - DAMNOEN (BREAKFAST/LUNCH/DINNER CRUISE)", "Makan pagi di Hotel, pengantaran ke Damnoen Saduak Floating Market (include Boat Canal Tour sekitar 45-60 Menit), Meaklong Railway Market, Makan siang di Local Restaurant, Kembali ke Bangkok, Erawadee Herb Shop, Icon Siam & Sook Siam Floating Market di mall, including Chaophraya Dinner Cruise, Kembali ke hotel.", ""],
+  ["DAY 3 : BANGKOK CITY TOUR (BREAKFAST/LUNCH COUPON/DINNER)", "Makan Pagi di Hotel, Gems Gallery Museum, Chaophraya River sightseeing with tourist boat, Wat Arun (Istana Kerajaan pertama di Bangkok), Wat Pak Nam (Patung Buddha Terbesar di Bangkok) additional boat activity Untuk pengambilan dokumentasi Foto sebesar THB300/pax, Khlong Bang Luang Baan Silapin (Floating Market Kuno), Lunch at local restaurant, Dried Food, Honey Bee Farm, Platinum Fashion Mall, Makan Malam di Local Restaurant, Free Calypso Cabaret Show di Asiatique the Riverfront Night Market, Kembali ke Hotel.", ""],
+  ["DAY 4 : DEPARTURES (BREAKFAST)", "Setelah makan pagi di Hotel, Acara bebas sampai pengantaran ke airport.", ""]
+];
 
 /* ============================================================
    FASILITAS, BIAYA, DAN SYARAT
@@ -150,15 +199,7 @@ const PACKAGES = [
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
     departures: sched(SCH_7D6N),
     bonus:["Free cable car Genting Highland","Bisa daftar 1 orang tanpa biaya tambahan"],
-    itinerary:[
-      dKL("Alamis Hotel / setaraf bintang 3, Kuala Lumpur"),
-      dGenting("Millesime Hotel / setaraf bintang 3, Johor Bahru"),
-      dSG("Balik Pulau Hotel / setaraf bintang 3, Melaka"),
-      ["Melaka - Dannok (Thailand)", "Tour Melaka (photo stop): Gedung Merah, Benteng Portugis, Jonker Street, dan lainnya. Perjalanan menuju Dannok, Thailand, makan siang dan makan malam di restoran lokal.", M_BLD, "M Hotel / setaraf bintang 3, Dannok, Thailand"],
-      ["Hatyai City Tour (Thailand)", "Erawadee Thai Herbal Shop, belanja oleh-oleh di Toko Kaos Kaysorn dan Nora Plaza (barang kulit khas Thailand), makan siang di restoran lokal, Sleeping Buddha (Wat Phranon Laem Pho), Samila Beach dan Mermaid Statue. Lanjut ke Hatyai Floating Market (buka khusus akhir pekan), makan malam masing-masing.", M_BL, "ATK Garden Hotel / setaraf bintang 3, Hatyai, Thailand"],
-      ["Hatyai - Kuala Lumpur", "Perjalanan menuju Kuala Lumpur, makan siang dan makan malam di restoran lokal, check in hotel, acara bebas.", M_BLD, "Alamis Hotel / setaraf bintang 3, Kuala Lumpur"],
-      ["Transfer out", "Free time sambil menunggu jadwal keberangkatan ke kota masing-masing, lalu diantar ke KLIA. Acara tour selesai.", M_B, ""]
-    ],
+    itinerary: IT_7D6N,
     included: INC_MY("6 malam").map((x,i) => i===2 ? "6 malam hotel bintang 3/4 setaraf, sekamar berdua/bertiga (twin/triple)" : x),
     excluded: EXC_MY("650.000", INS_COVID),
     costs: ["Single supplement: Rp 1.950.000 (low season) / Rp 2.750.000 (peak season)"].concat(DP_MY),
@@ -169,16 +210,7 @@ const PACKAGES = [
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari kota lainnya","Meeting point: Bandara KLIA (Kuala Lumpur) dan Bandara BKK (Bangkok)"],
     departures: sched(SCH_STD),
     bonus:["Free cable car Genting Highland"],
-    itinerary:[
-      dKL("Kingston 20 Hotel / setaraf bintang 3, Kuala Lumpur"),
-      dGenting("Millesime Hotel / setaraf bintang 3, Johor Bahru"),
-      dSG("Kingston 17 Hotel / setaraf bintang 3, Melaka"),
-      dMelakaKL("Kingston 05 Hotel / setaraf bintang 3, Kuala Lumpur"),
-      ["Kuala Lumpur - Bangkok (Thailand)", "Diantar ke bandara untuk penerbangan menuju Bangkok. Tiba di Bangkok, dijemput guide, check in hotel, istirahat, acara bebas.", M_B, "Thomson Hotel / setaraf bintang 3, Bangkok"],
-      dPattaya("The Season Hotel / setaraf bintang 3, Pattaya"),
-      dBkkBack("Thomson Hotel / setaraf bintang 3, Bangkok"),
-      ["Departure", "Setelah sarapan di hotel, menunggu penjemputan ke bandara.", M_B, ""]
-    ],
+    itinerary: IT_8D7N,
     included: INC_MY("7 malam"),
     excluded: EXC_MY("700.000", "Asuransi perjalanan"),
     costs: ["Single supplement: Rp 3.000.000 (low season) / Rp 4.000.000 (peak season)", "DP per orang (low season): berangkat dari Jakarta Rp 6.500.000, dari Surabaya Rp 8.500.000, Land Tour Only Rp 3.500.000", "Pelunasan 20 hari sebelum tanggal keberangkatan"],
@@ -189,12 +221,7 @@ const PACKAGES = [
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari seluruh kota/airport di Indonesia","Meeting point: Bandara KLIA, Kuala Lumpur"],
     departures: sched(SCH_STD),
     bonus:["Free cable car Genting Highland","Bisa daftar 1 orang tanpa biaya tambahan"],
-    itinerary:[
-      dKL("Alamis Hotel / setaraf bintang 3, Kuala Lumpur"),
-      dGenting("Millesime Hotel / setaraf bintang 3, Johor Bahru"),
-      dSG("Balik Pulau Hotel / setaraf bintang 3, Melaka"),
-      ["Melaka - Transfer out", "Tour Melaka (photo stop): Gedung Merah, Benteng Portugis, Jonker Street, dan lainnya. Lanjut ke Kuala Lumpur, makan siang di restoran lokal, lalu diantar ke KLIA. Acara tour selesai.", M_BL, ""]
-    ],
+    itinerary: IT_4D3N,
     included: ["Tiket pesawat pulang pergi", "Bagasi kabin 7 kg"].concat(INC_MY("3 malam").slice(1)),
     excluded: EXC_MY("550.000", INS_COVID),
     costs: ["Single supplement: Rp 1.450.000 (low season) / Rp 2.200.000 (peak season)"].concat(DP_MY),
@@ -205,13 +232,7 @@ const PACKAGES = [
     schedule:["Keberangkatan mingguan, umumnya setiap Rabu. Di periode high season ada tambahan tanggal","Periode Okt 2026 sampai Des 2027","Bisa berangkat dari kota lainnya","Meeting point: Bandara KLIA, Kuala Lumpur"],
     departures: sched(SCH_STD),
     bonus:["Free cable car Genting Highland","Bisa daftar 1 orang tanpa biaya tambahan"],
-    itinerary:[
-      dKL("Alamis Hotel / setaraf bintang 3, Kuala Lumpur"),
-      dGenting("Millesime Hotel / setaraf bintang 3, Johor Bahru"),
-      dSG("Balik Pulau Hotel / setaraf bintang 3, Melaka"),
-      dMelakaKL("Alamis Hotel / setaraf bintang 3, Kuala Lumpur"),
-      ["Transfer out", "Free time sambil menunggu jadwal keberangkatan ke kota masing-masing. Acara tour selesai.", M_B, ""]
-    ],
+    itinerary: IT_5D4N,
     included: ["Tiket pesawat pulang pergi", "Bagasi kabin 7 kg"].concat(INC_MY("4 malam").slice(1)),
     excluded: EXC_MY("550.000", INS_COVID),
     costs: ["Single supplement: Rp 1.700.000 (low season) / Rp 2.450.000 (peak season)"].concat(DP_MY),
@@ -221,12 +242,7 @@ const PACKAGES = [
     items:["Bangkok dan Pattaya","Berangkat setiap hari, minimal 2 orang (SIC)","Periode Nov 2026 sampai Mar 2027"],
     schedule:["Berangkat setiap hari, bebas pilih tanggal","Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
     daily:["2026-11-01","2027-03-31"],
-    itinerary:[
-      ["Tiba di Bangkok", "Penjemputan di bandara, check in hotel, bermalam di Bangkok.", "Tidak ada", ""],
-      dPattaya(""),
-      dBkkBack(""),
-      ["Departure", "Setelah sarapan di hotel, menunggu penjemputan ke bandara.", M_B, ""]
-    ],
+    itinerary: IT_BP,
     included: ["Tiket pesawat pulang pergi", "Akomodasi hotel sesuai pilihan", "Transportasi", "Driver/guide berbahasa Indonesia", "Makan dan tour sesuai program", "Air mineral 1 botol (600 ml) per hari", "Tiket masuk objek wisata"],
     excluded: EXC_TH,
     costs: COSTS_TH,
@@ -237,12 +253,7 @@ const PACKAGES = [
     schedule:["Berangkat setiap hari, bebas pilih tanggal","Keberangkatan SIC (tour gabungan), minimal 2 orang","Periode Nov 2026 sampai Mar 2027","Meeting point: Bandara Don Mueang atau Suvarnabhumi, Bangkok"],
     bonus:["Free Calypso Cabaret Show di Asiatique the Riverfront Night Market"],
     daily:["2026-11-01","2027-03-31"],
-    itinerary:[
-      ["Tiba di Bangkok", "Penjemputan dari bandara, transfer check in hotel, bermalam di Bangkok.", "Tidak ada", ""],
-      ["Bangkok - Damnoen", "Damnoen Saduak Floating Market (termasuk boat canal tour sekitar 45-60 menit), Meaklong Railway Market, makan siang di restoran lokal. Kembali ke Bangkok: Erawadee Herb Shop, Icon Siam dan Sook Siam Floating Market di dalam mall, lalu Chao Phraya Dinner Cruise. Kembali ke hotel.", "Makan pagi, siang, dan makan malam di cruise", ""],
-      ["Bangkok City Tour", "Gems Gallery Museum, wisata Sungai Chao Phraya dengan perahu, Wat Arun, Wat Pak Nam (patung Buddha terbesar di Bangkok), Khlong Bang Luang Baan Silapin (floating market kuno), makan siang di restoran lokal, Dried Food, Honey Bee Farm, dan Platinum Fashion Mall. Makan malam di restoran lokal, Free Calypso Cabaret Show di Asiatique the Riverfront Night Market, lalu kembali ke hotel.", "Makan pagi, makan siang (kupon), dan makan malam", ""],
-      ["Departure", "Setelah makan pagi di hotel, acara bebas sampai diantar ke bandara.", M_B, ""]
-    ],
+    itinerary: IT_DAMNOEN,
     included: ["Tiket pesawat pulang pergi", "Akomodasi hotel bintang 3 / setaraf", "Transportasi", "Driver/guide berbahasa Indonesia", "Makan dan tour sesuai program", "Makan malam di cruise (hari ke-2)", "Air mineral 1 botol (600 ml) per hari", "Tiket masuk objek wisata"],
     excluded: EXC_TH.concat(["Aktivitas perahu tambahan di Wat Pak Nam untuk foto dokumentasi THB 300/orang (opsional)"]),
     costs: COSTS_TH,
