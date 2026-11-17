@@ -11,7 +11,7 @@ const SITE = {
   // Isi akun sosial media lain di bawah ini. Kosongkan ("") jika belum ada, tombolnya otomatis tidak tampil.
   threads: "alzaztour",               // tanpa @
   facebook: "https://www.facebook.com/profile.php?id=61596076334018",   // boleh link lengkap
-  tiktok: "",                         // contoh: "alzaztour" (tanpa @). Isi kalau TikTok sudah jadi
+  tiktok: "alzaz.tour",                         // contoh: "alzaztour" (tanpa @). Isi kalau TikTok sudah jadi
   address: "Jl Gundih GG 1 no 29, Kel. Gundih, Kec. Bubutan, Kota Surabaya",
   offices: [
     { name:"Head Office", address:"Jl Gundih GG 1 no 29, Kel. Gundih, Kec. Bubutan, Kota Surabaya",  },
