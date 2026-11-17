@@ -14,9 +14,9 @@ const SITE = {
   tiktok: "",                         // contoh: "alzaztour" (tanpa @). Isi kalau TikTok sudah jadi
   address: "Jl Gundih GG 1 no 29, Kel. Gundih, Kec. Bubutan, Kota Surabaya",
   offices: [
-    { name:"Head Office", address:"Jl Gundih GG 1 no 29, Kel. Gundih, Kec. Bubutan, Kota Surabaya", phone:"" },
-    { name:"Branch Office Bekasi", address:"Ruko Kalimas Blok A 12, Jl. Chairil Anwar, Bekasi Timur", phone:"(021) 8834 1177" },
-    { name:"Branch Office Graha Raya Bintaro", address:"Ruko Venice Blok JE No.8, Jl. Boulevard Graha Raya Bintaro, Tangerang Selatan", phone:"(021) 5314 0007" }
+    { name:"Head Office", address:"Jl Gundih GG 1 no 29, Kel. Gundih, Kec. Bubutan, Kota Surabaya",  },
+    { name:"Branch Office Bekasi", address:"Ruko Kalimas Blok A 12, Jl. Chairil Anwar, Bekasi Timur",  },
+    { name:"Branch Office Graha Raya Bintaro", address:"Ruko Venice Blok JE No.8, Jl. Boulevard Graha Raya Bintaro, Tangerang Selatan",  }
   ],
   hours: "Senin sampai Sabtu, 09.00 sampai 17.00"
 };
