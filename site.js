@@ -346,7 +346,7 @@ function renderFooter(){
       <div class="foot-grid">
         <div>
           <div class="foot-brand"><img src="logo.png" alt="" width="52" height="52">${SITE.name}</div>
-          <p>Paket wisata, tiket pesawat, dan sewa bus untuk perjalanan yang nyaman.</p>
+          <p>Paket wisata, tiket pesawat, dan land arrangement untuk perjalanan yang nyaman.</p>
         </div>
         <div>
           <h3>Menu</h3>
