@@ -277,16 +277,16 @@ const rupiah = n => "Rp " + n.toLocaleString("id-ID");
 const findPackage = slug => PACKAGES.find(p => p.slug === slug);
 
 const NAV = [
-  ["home",     "index.html",         "Beranda"],
-  ["paket",    "paket.html",         "Paket Wisata"],
-  ["layanan",  "layanan.html",       "Layanan"],
-  ["dokumentasi", "dokumentasi.html", "Dokumentasi"],
-  ["kontak",   "kontak.html",        "Kontak"]
+  ["home",     "./",         "Beranda"],
+  ["paket",    "paket",         "Paket Wisata"],
+  ["layanan",  "layanan",       "Layanan"],
+  ["dokumentasi", "dokumentasi", "Dokumentasi"],
+  ["kontak",   "kontak",        "Kontak"]
 ];
 
 function packageCard(p){
   const msg = `Halo Alzaz Tour, saya tertarik paket ${p.name} (${p.days} hari ${p.nights} malam). Boleh minta jadwal dan harga terbaru?`;
-  const detail = `detail.html?p=${p.slug}`;
+  const detail = `detail?p=${p.slug}`;
   const price = p.price
     ? `<small>Mulai dari</small><strong>${rupiah(p.price)}</strong>/orang`
     : `<small>Harga</small><strong>Hubungi kami</strong>`;
@@ -320,7 +320,7 @@ function renderHeader(active){
   return `
   <header>
     <div class="wrap nav">
-      <a href="index.html" class="brand" aria-label="${SITE.name}">
+      <a href="./" class="brand" aria-label="${SITE.name}">
         <img src="logo.png" alt="Logo Alzaz Tour" width="46" height="46">
         <div>Alzaz Tour<small>&amp; TRAVEL</small></div>
       </a>
@@ -417,6 +417,35 @@ function renderSocial(){
   </div>`;
 }
 
+/* ============================================================
+   LINK TANPA ".html" (contoh: /paket, bukan /paket.html)
+   Semua link ke halaman sendiri dirapikan otomatis, dan alamat di
+   browser ikut dirapikan. File html di repo TIDAK perlu diganti nama.
+   ============================================================ */
+const cleanHref = h => {
+  const m = (h || "").match(/^(?:\.\/)?([\w-]+)\.html(\?[^#]*)?(#.*)?$/);
+  if (!m) return h;
+  return (m[1] === "index" ? "./" : m[1]) + (m[2] || "") + (m[3] || "");
+};
+const cleanLinks = () => {
+  document.querySelectorAll("a[href]").forEach(a => {
+    const h = a.getAttribute("href"), c = cleanHref(h);
+    if (c !== h) a.setAttribute("href", c);
+  });
+  document.querySelectorAll("form[action]").forEach(f => {
+    const h = f.getAttribute("action"), c = cleanHref(h);
+    if (c !== h) f.setAttribute("action", c);
+  });
+};
+window.addEventListener("load", () => {
+  cleanLinks();
+  // rapikan alamat di browser, misalnya /paket.html menjadi /paket
+  if (/^https?:/.test(location.protocol) && /\.html$/.test(location.pathname)) {
+    const path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "");
+    history.replaceState(null, "", path + location.search + location.hash);
+  }
+});
+
 /* Foto latar bagian atas beranda. Ganti file hero.jpg di repo untuk mengubah fotonya. */
 const HERO_STYLE = `<style>
   .hero{background:linear-gradient(90deg,rgba(6,77,22,.88) 0%,rgba(6,77,22,.55) 50%,rgba(6,77,22,.30) 100%),url('hero.jpg') center 76%/cover no-repeat}
@@ -445,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Halaman Kenapa Kami dan Cara Pesan digabung menjadi Dokumentasi
   document.querySelectorAll('a[href="kenapa-kami.html"], a[href="cara-pesan.html"]').forEach(a => {
-    a.href = "dokumentasi.html"; a.textContent = "Lihat dokumentasi perjalanan";
+    a.href = "dokumentasi"; a.textContent = "Lihat dokumentasi perjalanan";
   });
 
   const toggle = document.getElementById("menuToggle");
