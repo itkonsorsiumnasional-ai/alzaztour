@@ -8,7 +8,16 @@ const SITE = {
   waDisplay: "0895-2175-8554",
   email: "Alzaztourtravel@gmail.com",
   instagram: "alzaztour",
-  address: "Isi alamat kantor di sini",
+  // Isi akun sosial media lain di bawah ini. Kosongkan ("") jika belum ada, tombolnya otomatis tidak tampil.
+  threads: "alzaztour",               // tanpa @
+  facebook: "https://www.facebook.com/profile.php?id=61596076334018",   // boleh link lengkap
+  tiktok: "",                         // contoh: "alzaztour" (tanpa @). Isi kalau TikTok sudah jadi
+  address: "Jl Gundih GG 1 no 29, Kel. Gundih, Kec. Bubutan, Kota Surabaya",
+  offices: [
+    { name:"Head Office", address:"Jl Gundih GG 1 no 29, Kel. Gundih, Kec. Bubutan, Kota Surabaya", phone:"" },
+    { name:"Branch Office Bekasi", address:"Ruko Kalimas Blok A 12, Jl. Chairil Anwar, Bekasi Timur", phone:"(021) 8834 1177" },
+    { name:"Branch Office Graha Raya Bintaro", address:"Ruko Venice Blok JE No.8, Jl. Boulevard Graha Raya Bintaro, Tangerang Selatan", phone:"(021) 5314 0007" }
+  ],
   hours: "Senin sampai Sabtu, 09.00 sampai 17.00"
 };
 
@@ -324,6 +333,14 @@ function renderHeader(active){
 
 function renderFooter(){
   return `
+  <style>
+    .foot-offices{margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.15)}
+    .office-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .office{display:grid;gap:4px;align-content:start;line-height:1.5}
+    .office strong{color:#fff}
+    .office a{color:var(--yellow);font-weight:700}
+    @media (max-width:960px){.office-grid{grid-template-columns:1fr}}
+  </style>
   <footer>
     <div class="wrap">
       <div class="foot-grid">
@@ -341,9 +358,16 @@ function renderFooter(){
             <li>WhatsApp: <a data-wa="Halo Alzaz Tour" href="#">${SITE.waDisplay}</a></li>
             <li>Email: <a href="mailto:${SITE.email}">${SITE.email}</a></li>
             <li>Instagram: <a href="https://instagram.com/${SITE.instagram}" target="_blank" rel="noopener">@${SITE.instagram}</a></li>
-            <li>Alamat: ${SITE.address}</li>
+            ${SITE.threads ? `<li>Threads: <a href="https://www.threads.com/@${SITE.threads.replace(/^@/, "")}" target="_blank" rel="noopener">@${SITE.threads.replace(/^@/, "")}</a></li>` : ""}
+            ${SITE.facebook ? `<li>Facebook: <a href="${/^https?:/.test(SITE.facebook) ? SITE.facebook : "https://facebook.com/" + SITE.facebook}" target="_blank" rel="noopener">Alzaz Tour</a></li>` : ""}
             <li>Jam layanan: ${SITE.hours}</li>
           </ul>
+        </div>
+      </div>
+      <div class="foot-offices">
+        <h3>Kantor Kami</h3>
+        <div class="office-grid">
+          ${SITE.offices.map(o => `<div class="office"><strong>${o.name}</strong><span>${o.address}</span>${o.phone ? `<a href="tel:+62${o.phone.replace(/\D/g, "").replace(/^0/, "")}">&#9742; ${o.phone}</a>` : ""}</div>`).join("")}
         </div>
       </div>
       <p class="copy">© ${new Date().getFullYear()} ${SITE.name}. Semua hak dilindungi.</p>
@@ -355,12 +379,57 @@ function renderFooter(){
   </a>`;
 }
 
+/* ============================================================
+   TOMBOL MELAYANG SOSIAL MEDIA (di atas tombol WhatsApp)
+   Akun diatur di SITE di bagian atas file ini.
+   ============================================================ */
+function renderSocial(){
+  const list = [
+    SITE.instagram && { n:"Instagram", u:`https://instagram.com/${SITE.instagram}`, h:`@${SITE.instagram}`, c:"linear-gradient(45deg,#f9a03a,#e1306c,#833ab4)",
+      i:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff" stroke="none"/></svg>' },
+    SITE.tiktok && { n:"TikTok", u:`https://www.tiktok.com/@${SITE.tiktok.replace(/^@/, "")}`, h:`@${SITE.tiktok.replace(/^@/, "")}`, c:"#111",
+      i:'<b style="color:#fff;font-size:18px;line-height:1">♪</b>' },
+    SITE.threads && { n:"Threads", u:`https://www.threads.com/@${SITE.threads.replace(/^@/, "")}`, h:`@${SITE.threads.replace(/^@/, "")}`, c:"#111",
+      i:'<b style="color:#fff;font-size:18px;line-height:1;font-family:Arial,sans-serif">@</b>' },
+    SITE.facebook && { n:"Facebook", u:/^https?:/.test(SITE.facebook) ? SITE.facebook : `https://facebook.com/${SITE.facebook}`, h:"Alzaz Tour", c:"#1877f2",
+      i:'<b style="color:#fff;font-size:20px;line-height:1;font-family:Arial,sans-serif">f</b>' }
+  ].filter(Boolean);
+  if (!list.length) return "";
+  const share = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg>';
+  const css = `<style>
+    .sc-float{position:fixed;right:18px;bottom:82px;z-index:60;font-family:inherit}
+    .sc-btn{display:flex;align-items:center;gap:8px;border:0;cursor:pointer;font:inherit;font-weight:800;color:#fff;text-decoration:none;background:linear-gradient(45deg,#e1306c,#833ab4);border-radius:999px;padding:13px 20px;box-shadow:0 8px 22px rgba(0,0,0,.25)}
+    .sc-btn:hover{filter:brightness(1.1)}
+    .sc-menu{display:none;position:absolute;right:0;bottom:calc(100% + 10px);background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:8px;min-width:210px}
+    .sc-float.open .sc-menu{display:block}
+    .sc-menu a{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:10px;color:#1b2b1b;text-decoration:none;font-weight:700}
+    .sc-menu a:hover{background:#eef7e8}
+    .sc-menu a i{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;font-style:normal}
+    .sc-menu a small{display:block;font-weight:600;color:#6b7a6b;font-size:.78rem}
+    @media (max-width:960px){.sc-btn span{display:none}.sc-btn{padding:15px}.sc-float{bottom:80px}}
+  </style>`;
+  if (list.length === 1) {
+    return css + `<div class="sc-float"><a class="sc-btn" href="${list[0].u}" target="_blank" rel="noopener" aria-label="${list[0].n} ${SITE.name}">${share}<span>Sosial Media</span></a></div>`;
+  }
+  return css + `<div class="sc-float" id="scFloat">
+    <div class="sc-menu" id="scMenu">${list.map(x => `<a href="${x.u}" target="_blank" rel="noopener"><i style="background:${x.c}">${x.i}</i><span>${x.n}<small>${x.h}</small></span></a>`).join("")}</div>
+    <button type="button" class="sc-btn" id="scBtn" aria-expanded="false" aria-controls="scMenu" aria-label="Sosial media ${SITE.name}">${share}<span>Sosial Media</span></button>
+  </div>`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const active = document.body.dataset.page;
   const h = document.getElementById("site-header");
   const f = document.getElementById("site-footer");
   if (h) h.outerHTML = renderHeader(active);
   if (f) f.outerHTML = renderFooter();
+  document.body.insertAdjacentHTML("beforeend", renderSocial());
+  const sc = document.getElementById("scFloat"), scBtn = document.getElementById("scBtn");
+  if (sc && scBtn) {
+    scBtn.addEventListener("click", e => { e.stopPropagation(); const o = sc.classList.toggle("open"); scBtn.setAttribute("aria-expanded", o); });
+    document.addEventListener("click", e => { if (!sc.contains(e.target)) { sc.classList.remove("open"); scBtn.setAttribute("aria-expanded", "false"); } });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { sc.classList.remove("open"); scBtn.setAttribute("aria-expanded", "false"); } });
+  }
 
   document.querySelectorAll("[data-wa]").forEach(a => {
     a.href = wa(a.dataset.wa); a.target = "_blank"; a.rel = "noopener";
