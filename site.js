@@ -419,7 +419,7 @@ function renderSocial(){
 
 /* Foto latar bagian atas beranda. Ganti file hero.jpg di repo untuk mengubah fotonya. */
 const HERO_STYLE = `<style>
-  .hero{background:linear-gradient(90deg,rgba(6,77,22,.90) 0%,rgba(6,77,22,.68) 48%,rgba(6,77,22,.32) 100%),url('hero.jpg') center 22%/cover no-repeat}
+  .hero{background:linear-gradient(90deg,rgba(6,77,22,.88) 0%,rgba(6,77,22,.55) 50%,rgba(6,77,22,.30) 100%),url('hero.jpg') center 76%/cover no-repeat}
   .hero-logo{height:auto;aspect-ratio:1/1;object-fit:cover}
   @media (max-width:960px){.hero{background:linear-gradient(180deg,rgba(6,77,22,.88),rgba(6,77,22,.80)),url('hero.jpg') center/cover no-repeat}}
 </style>`;
