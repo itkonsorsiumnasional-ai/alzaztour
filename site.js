@@ -270,6 +270,29 @@ const PACKAGES = [
 ];
 
 /* ============================================================
+   Gabungkan paket bawaan dengan data dari Panel Admin (admin-data.js)
+   BUILTIN_PACKAGES = paket bawaan di atas. Panel admin bisa mengubah,
+   menyembunyikan, atau menambah paket dan foto dokumentasi.
+   ============================================================ */
+const BUILTIN_PACKAGES = JSON.parse(JSON.stringify(PACKAGES));
+let ADMIN = { packages: [], hidden: [], docs: [] };
+(function(){ try {
+  const x = new XMLHttpRequest(); x.open("GET", "admin-data.js?v=" + Date.now(), false); x.send();
+  if (x.status === 200) { const m = x.responseText.match(/^\s*window\.ADMIN_DATA\s*=\s*([\s\S]*?);\s*$/); if (m) ADMIN = Object.assign(ADMIN, JSON.parse(m[1])); }
+} catch (e) {} })();
+const relPath = s => /^(data:|https?:)/i.test(s || "") ? s : String(s || "").replace(/^\//, "");
+(function(){
+  const hidden = new Set(ADMIN.hidden || []), out = [];
+  BUILTIN_PACKAGES.forEach(b => { if (!hidden.has(b.slug)) out.push(ADMIN.packages.find(p => p.slug === b.slug) || b); });
+  ADMIN.packages.forEach(p => { if (!BUILTIN_PACKAGES.some(b => b.slug === p.slug) && !hidden.has(p.slug)) out.push(p); });
+  out.forEach(p => { p.image = relPath(p.image); });
+  out.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  PACKAGES.length = 0; out.forEach(p => PACKAGES.push(p));
+})();
+// Foto dokumentasi yang ditambah lewat panel admin (dipakai halaman dokumentasi)
+const ADMIN_DOCS = (ADMIN.docs || []).map(d => Object.assign({}, d, { src: relPath(d.src) }));
+
+/* ============================================================
    Bagian di bawah ini tidak perlu diubah
    ============================================================ */
 const wa = msg => `https://wa.me/${SITE.waNumber}?text=${encodeURIComponent(msg)}`;
@@ -460,7 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const f = document.getElementById("site-footer");
   if (h) h.outerHTML = renderHeader(active);
   if (f) f.outerHTML = renderFooter();
-  document.body.insertAdjacentHTML("beforeend", renderSocial());
+  if (document.body.dataset.page) document.body.insertAdjacentHTML("beforeend", renderSocial());
   const sc = document.getElementById("scFloat"), scBtn = document.getElementById("scBtn");
   if (sc && scBtn) {
     scBtn.addEventListener("click", e => { e.stopPropagation(); const o = sc.classList.toggle("open"); scBtn.setAttribute("aria-expanded", o); });
